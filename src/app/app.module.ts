@@ -43,6 +43,10 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableComponent } from './mat-table/mat-table.component';
 import { TestTableComponent } from './test-table/test-table.component';
+import { AppMatNavComponent } from './app-mat-nav/app-mat-nav.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
 
 const routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -67,6 +71,7 @@ const routes = [
     ManageIngredientsComponent,
     MatTableComponent,
     TestTableComponent,
+    AppMatNavComponent,
   ],
   imports: [
     BrowserModule,
@@ -91,7 +96,10 @@ const routes = [
     MatSnackBarModule,
     MatProgressSpinnerModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    LayoutModule,
+    MatToolbarModule,
+    MatIconModule
   ],
   providers: [
     FireDatabaseService,

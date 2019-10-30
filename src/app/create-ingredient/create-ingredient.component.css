@@ -1,16 +1,10 @@
 button[mat-raised-button] {
     margin: 10px 0px;
-    background-color: #d81b60;
 }
 
 .sample-container {
     display: flex;
-    width: 70%;
     flex-direction: column;
-}
-
-span.icon {
-    margin-top: 14px;
 }
 
 .sample-container > * {

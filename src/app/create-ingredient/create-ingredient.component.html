@@ -14,12 +14,16 @@
                     <mat-form-field>
                         <mat-label>Unit</mat-label>
                         <mat-select formControlName='ingUnit'>
+                            <mat-option>None</mat-option>
                             <mat-option *ngFor="let unit of units" [value]="unit.value">
                                 {{unit.name}}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
                     <button mat-raised-button [disabled]='!f.valid' color='primary'>Create</button>
+                    <div class="alert alert-danger" *ngIf="!f.valid">
+                        Please fill the required field(s).
+                    </div>
                 </div>
             </form>
         </div>
