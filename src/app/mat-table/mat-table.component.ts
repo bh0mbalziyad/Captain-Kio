@@ -23,7 +23,7 @@ export interface Page{
 })
 export class MatTableComponent implements OnInit{
 
-  displayedColumns = [ 'id','name', 'quantity'];
+  displayedColumns = [ 'name', 'quantity'];
   dataSource: IngredientDataSource;
 
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
@@ -68,16 +68,27 @@ export class MatTableComponent implements OnInit{
     this.dataSource.filter(filterValue);    
   }
 
+  //Update item in row
+  update(ingredient: Ingredient){
+    console.log(`Update ${ingredient.name} & ${ingredient.key}`);
+    
+  }
+
   // Delete item from row
   delete(ingredient: Ingredient){
-    this.snackBar.open('Deleted!','Undo',{
-      duration: 5000
-    })
-    .onAction()
-    .subscribe(()=>{
-      // TODO hanlde undo delete here
+    this.service.delete(ingredient).then(
+      ()=>{
+        this.snackBar.open('Deleted!','Undo',{
+          duration: 5000
+        })
+        .onAction()
+        .subscribe(()=>{
+          // TODO hanlde undo delete here
+          this.service.create(ingredient);
       
-    })
+        });
+      }
+    )
     
   }
 
@@ -107,7 +118,7 @@ export class IngredientDataSource extends DataSource<Ingredient>{
   filter(value: string){
     let data = this.data.filter(
       (val: Ingredient,index: number,arr: Ingredient[]) => {
-        let valString = val.name+''+val.id;
+        let valString = val.name+val.unit;
         if (valString.toLowerCase().includes(value.toLowerCase()))
           return true;
         return false;
@@ -178,8 +189,8 @@ export class IngredientDataSource extends DataSource<Ingredient>{
       const isAsc = this.sort.direction === 'asc';
       switch (this.sort.active) {
         case 'name': return compare(a.name, b.name, isAsc);
-        case 'id': return compare(+a.id, +b.id, isAsc);
-        case 'quantity': return compare(+a.id, +b.id, isAsc);
+        // case 'id': return compare(+a.id, +b.id, isAsc);
+        case 'quantity': return compare(+a.quantity, +b.quantity, isAsc);
         default: return 0;
       }
       this.data = data;

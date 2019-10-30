@@ -26,8 +26,9 @@
         <mat-header-cell *matHeaderCellDef mat-sort-header> Quantity </mat-header-cell>
         <mat-cell *matCellDef="let ingredient">
             <div class="sample-container">
+                    <span (click)='update(ingredient)' class='update-icon'><i class="material-icons">edit</i></span>
                 <p>{{ingredient.quantity + ' ' + ingredient.unit + '(s)'}}</p>
-                <span (click)='delete(ingredient)' class="icon"><i class="material-icons">delete</i></span>
+                <span (click)='delete(ingredient)' class="delete-icon"><i class="material-icons">delete</i></span>
             </div>
         </mat-cell>
     </ng-container>

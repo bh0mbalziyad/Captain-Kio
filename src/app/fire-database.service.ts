@@ -16,7 +16,20 @@ export class FireDatabaseService {
    }
 
   create(item : Ingredient){
-    this.ref.push(item);
+    let ref = this.ref.push(item).key;
+    console.log(`Key = ${ref}`);
+    this.db.object(this.dbPath+'/'+ref).update({key: ref});
+  }
+
+
+  update(item: any){
+    return this.db.object(this.dbPath+'/'+item.key)
+      .update({item});
+  }
+
+
+  delete(item: Ingredient): Promise<void>{
+    return this.db.object(this.dbPath+'/'+item.key).remove();
   }
 
   getAll(): Observable<Ingredient[]>{

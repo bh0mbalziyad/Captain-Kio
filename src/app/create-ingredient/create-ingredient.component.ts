@@ -7,7 +7,7 @@ import { AngularFireDatabase } from '@angular/fire/database';
 
 export interface Ingredient{
   name: string;
-  id: string;
+  key?: string;
   unit: string;
   quantity?: number; 
 }
@@ -31,7 +31,6 @@ export class CreateIngredientComponent implements OnInit {
   ngOnInit() {
     this.form = this.fb.group({
       ingName: ['', [Validators.required]],
-      ingID: ['', [Validators.required]],
       ingUnit: ['', [Validators.required]],
       ingQuantity: ['',[Validators.required]]
     });
@@ -44,10 +43,9 @@ export class CreateIngredientComponent implements OnInit {
     var ingredient: Ingredient = {
       name: val.ingName,
       quantity: val.ingQuantity,
-      unit: val.ingUnit,
-      id: val.ingID
+      unit: val.ingUnit
     }
-    // this.fireService.create(ingredient);
+    this.fireService.create(ingredient);
     console.log(ingredient);
     
 

@@ -7,12 +7,17 @@
     justify-content: center;
 }
 
-span.icon {
+span.delete-icon {
     color:red;
     margin: 0px 5px;
 }
 
-span.icon:hover {
+span.update-icon {
+    color: blue;
+    margin: 0px 5px;
+}
+
+span.update-icon:hover, span.delete-icon:hover {
     cursor: pointer;
 }
 
