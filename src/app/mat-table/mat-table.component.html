@@ -1,0 +1,47 @@
+<mat-form-field>
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+</mat-form-field>
+<mat-table matSort #table>
+ 
+    <!--- Note that these columns can be defined in any order.
+            The actual rendered columns are set as a property on the row definition" -->
+
+            
+    <!-- ID Column -->
+
+    <ng-container matColumnDef="id">
+        <mat-header-cell mat-sort-header *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
+        <mat-cell *matCellDef="let ingredient"> {{ingredient.id}} </mat-cell>
+    </ng-container>
+    
+    <!-- Name Column -->
+
+    <ng-container matColumnDef="name">
+        <mat-header-cell mat-sort-header *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+        <mat-cell *matCellDef="let ingredient"> {{ingredient.name}} </mat-cell>
+    </ng-container>
+
+    <!-- Quantity Column -->
+    <ng-container matColumnDef="quantity">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Quantity </mat-header-cell>
+        <mat-cell *matCellDef="let ingredient">
+            <div class="sample-container">
+                <p>{{ingredient.quantity + ' ' + ingredient.unit + '(s)'}}</p>
+                <span (click)='delete(ingredient)' class="icon"><i class="material-icons">delete</i></span>
+            </div>
+        </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns;" sticky='true'></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+<!-- <mat-paginator #paginator
+        [hidden]='dataSource.loading$ | async'
+        [length]='dataSource?.data.length'
+        [pageIndex]="0"
+        [pageSize]="5"
+        [pageSizeOptions]="[5,15,20]">
+</mat-paginator> -->
+<div *ngIf="dataSource.loading$ | async" class="spinner-container">
+        <mat-spinner></mat-spinner>
+</div>

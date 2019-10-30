@@ -1,0 +1,27 @@
+button[mat-raised-button] {
+    margin: 10px 0px;
+    background-color: #d81b60;
+}
+
+.sample-container {
+    display: flex;
+    width: 70%;
+    flex-direction: column;
+}
+
+span.icon {
+    margin-top: 14px;
+}
+
+.sample-container > * {
+    width: 100%;
+    margin-top: 20px; 
+}
+
+button[mat-raised-button] {
+    padding: 8px 0px;
+}
+
+input[matInput] {
+    margin: 10px 0px;
+}

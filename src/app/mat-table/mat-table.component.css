@@ -1,0 +1,24 @@
+.spinner-container {
+
+    margin: 20px;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+span.icon {
+    color:red;
+    margin: 0px 5px;
+}
+
+span.icon:hover {
+    cursor: pointer;
+}
+
+
+.sample-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}

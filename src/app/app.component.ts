@@ -1,4 +1,9 @@
+import { Router } from '@angular/router';
 import { Component } from '@angular/core';
+
+export interface Items{
+  name: string
+}
 
 @Component({
   selector: 'app-root',
@@ -6,5 +11,18 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'kiosk';
+  items: Items[] = [
+    {name: 'Categories'},
+    {name: 'Dishes'},
+    {name: 'Ingredients'}
+  ];
+
+  navOpened = true;
+
+  constructor(private router: Router) { }
+
+  navigate(name: string){
+    this.router.navigate(['/actions',name.toLowerCase()]);
+    
+  }
 }

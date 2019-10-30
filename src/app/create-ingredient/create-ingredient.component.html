@@ -1,0 +1,31 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <form [formGroup]='form' #f='ngForm' (ngSubmit)='submit(f)'>
+                <div class="sample-container">
+                    <mat-form-field>
+                        <mat-label>Name</mat-label>
+                        <input formControlName='ingName' matInput placeholder='Name for ingredient' type="text">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>ID</mat-label>
+                        <input formControlName='ingID' matInput placeholder='ID for ingredient' type="number">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Quantity</mat-label>
+                        <input formControlName='ingQuantity' matInput placeholder='Quantity for your ingredient'  type="number">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Unit</mat-label>
+                        <mat-select formControlName='ingUnit'>
+                            <mat-option *ngFor="let unit of units" [value]="unit.value">
+                                {{unit.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <button mat-raised-button [disabled]='!f.valid' color='primary'>Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

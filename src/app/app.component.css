@@ -1,0 +1,23 @@
+mat-sidenav-container {
+    height: 100%;
+}
+
+mat-sidenav {
+    width: 180px;
+    background-color: #e91e63;
+}
+
+mat-sidenav-content {
+    padding: 10px;
+    background-color: #303030;
+}
+
+
+mat-list-item a {
+    width: 100%;
+}
+
+
+h3.text-center{
+    margin: 28px 0px;
+}
