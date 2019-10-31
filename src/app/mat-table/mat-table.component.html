@@ -1,8 +1,13 @@
 <div class="main-container">
 
-    
     <mat-form-field>
-        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+        <mat-label for='search'>
+            <div class="search-label">
+                <i class="material-icons position">search</i>
+                <p>Filter</p> 
+            </div>
+        </mat-label>
+        <input id='search' type="text" matInput placeholder="Type something" (keyup)="applyFilter($event.target.value)">
     </mat-form-field>
     <mat-table matSort #table  class="mat-elevation-z6">
      
@@ -12,9 +17,13 @@
                 
         <!-- ID Column -->
     
-        <ng-container matColumnDef="id">
-            <mat-header-cell mat-sort-header *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
-            <mat-cell *matCellDef="let ingredient"> {{ingredient.id}} </mat-cell>
+        <ng-container matColumnDef="actions">
+            <mat-header-cell mat-sort-header *matHeaderCellDef mat-sort-header> Actions </mat-header-cell>
+            <mat-cell id='actions' *matCellDef="let ingredient"> 
+                {{''}} 
+                <span (click)='delete(ingredient)' class="delete-icon"><i class="material-icons">delete</i></span>  
+                <span (click)='update(ingredient)' class='update-icon'><i class="material-icons">edit</i></span>
+            </mat-cell>
         </ng-container>
         
         <!-- Name Column -->
@@ -28,11 +37,7 @@
         <ng-container matColumnDef="quantity">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Quantity </mat-header-cell>
             <mat-cell *matCellDef="let ingredient">
-                <div class="sample-container">
-                        <span (click)='update(ingredient)' class='update-icon'><i class="material-icons">edit</i></span>
-                    <p>{{ingredient.quantity + ' ' + ingredient.unit + '(s)'}}</p>
-                    <span (click)='delete(ingredient)' class="delete-icon"><i class="material-icons">delete</i></span>
-                </div>
+                {{ingredient.quantity + ' ' + ingredient.unit + '(s)'}}
             </mat-cell>
         </ng-container>
     

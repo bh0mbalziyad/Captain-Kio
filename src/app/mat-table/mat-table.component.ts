@@ -23,7 +23,7 @@ export interface Page{
 })
 export class MatTableComponent implements OnInit{
 
-  displayedColumns = [ 'name', 'quantity'];
+  displayedColumns = [ 'name', 'quantity','actions'];
   dataSource: IngredientDataSource;
 
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
