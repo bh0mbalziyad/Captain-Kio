@@ -1,0 +1,26 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12 container">
+            <mat-form-field>
+                <mat-label>Name<sup>*</sup></mat-label>
+                <input matInput  [(ngModel)]="data.name" placeholder="Name for ingredient" type="text">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Quantity<sup>*</sup></mat-label>
+                <input matInput [(ngModel)]="data.quantity" placeholder="Quantity for ingredient" type="number">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Unit<sup>*</sup></mat-label>
+                <mat-select [(value)]='data.unit'>
+                    <mat-option value='unit'>Unit</mat-option>
+                    <mat-option value='kg'>Kg</mat-option>
+                    <mat-option value='ltrs'>Ltrs</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <div class="dialog-actions">
+                <button id='cancel' mat-raised-button (click)='onNoClick()' color='primary'>Cancel</button>
+                <button id='update' [mat-dialog-close]='data' cdkFocusInitial mat-raised-button color='primary'>Update</button>
+            </div>
+        </div>
+    </div>
+</div>

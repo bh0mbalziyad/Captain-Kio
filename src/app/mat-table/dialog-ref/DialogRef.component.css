@@ -1,0 +1,27 @@
+div.container.col-12 {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+div.container.col-12 > * {
+    margin: 10px 0px;
+}
+
+button[mat-raised-button] {
+    padding: 5px 50px;
+}
+
+button#cancel{
+    background-color: red;
+}
+
+button#update{
+    background-color: #328621;
+}
+
+.dialog-actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

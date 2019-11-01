@@ -24,6 +24,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule, MatFormFieldControl} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatDialogModule} from '@angular/material/dialog';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
@@ -47,6 +48,7 @@ import { AppMatNavComponent } from './app-mat-nav/app-mat-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
+import { DialogRefComponent } from './mat-table/dialog-ref/DialogRef.component';
 
 const routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -61,6 +63,7 @@ const routes = [
 @NgModule({
   declarations: [
     AppComponent,
+    DialogRefComponent,
     HomeComponent,
     NotFoundComponent,
     MenuComponent,
@@ -72,6 +75,9 @@ const routes = [
     MatTableComponent,
     TestTableComponent,
     AppMatNavComponent,
+  ],
+  entryComponents:[
+    DialogRefComponent,
   ],
   imports: [
     BrowserModule,
@@ -99,7 +105,8 @@ const routes = [
     AngularFireDatabaseModule,
     LayoutModule,
     MatToolbarModule,
-    MatIconModule
+    MatIconModule,
+    MatDialogModule
   ],
   providers: [
     FireDatabaseService,

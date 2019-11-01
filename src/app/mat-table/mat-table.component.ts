@@ -1,3 +1,4 @@
+import { DialogRefComponent } from './dialog-ref/DialogRef.component';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
@@ -8,6 +9,8 @@ import { Ingredient } from './../create-ingredient/create-ingredient.component';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { BehaviorSubject, Observable, of, merge } from 'rxjs';
 import { catchError, finalize, map, tap } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import * as deepEqual from "deep-equal";
 
 
 
@@ -30,7 +33,11 @@ export class MatTableComponent implements OnInit{
   @ViewChild(MatSort, {static: false}) sort: MatSort;
   @ViewChild(MatTable, {static: false}) table: MatTable<Ingredient>;
 
-  constructor(private service: FireDatabaseService, private snackBar: MatSnackBar) { 
+  constructor(
+    private service: FireDatabaseService, 
+    private snackBar: MatSnackBar, 
+    private dialog: MatDialog
+    ) { 
 
   }
 
@@ -68,11 +75,30 @@ export class MatTableComponent implements OnInit{
     this.dataSource.filter(filterValue);    
   }
 
-  //Update item in row
+  //TODO Update item in row
   update(ingredient: Ingredient){
     console.log(`Update ${ingredient.name} & ${ingredient.key}`);
+    const dialogRef = this.dialog.open(DialogRefComponent,{
+      width: '400px',
+      data: {
+        name: ingredient.name,
+        quantity: ingredient.quantity,
+        key: ingredient.key,
+        unit: ingredient.unit
+      }
+    });
+
+    dialogRef.afterClosed()
+    .subscribe((result: Ingredient) => {
+      console.log('Dialog closed');
+      if (result){
+        console.log(deepEqual(ingredient,result,{strict: true}));
+        !deepEqual(ingredient,result)? this.service.update(result): null;
+      }
+    })
     
   }
+
 
   // Delete item from row
   delete(ingredient: Ingredient){

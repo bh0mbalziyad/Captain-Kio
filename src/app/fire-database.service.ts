@@ -24,7 +24,7 @@ export class FireDatabaseService {
 
   update(item: any){
     return this.db.object(this.dbPath+'/'+item.key)
-      .update({item});
+      .update(item);
   }
 
 
