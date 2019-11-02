@@ -1,0 +1,52 @@
+div.container#main {
+    padding: 20px;
+}
+
+div.container#main img {
+    max-width: 100%;
+}
+
+div.container div.col-sm-6 {
+    margin: 15px 0px;
+}
+
+.previewWrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.previewWrapper mat-progress-bar {
+    position: absolute;
+    top: 0px;
+}
+
+button#filePicker {
+    position: absolute;
+    bottom: 20px;
+    right: 33px;
+}
+
+div.form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    height: 100%;
+}
+
+div.form-container > * {
+    width: 80%;
+}
+
+div.form-elements {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+div.form-elements > * {
+    width: 100%;
+}

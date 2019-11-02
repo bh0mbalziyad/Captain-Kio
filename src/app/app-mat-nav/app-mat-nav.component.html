@@ -5,15 +5,15 @@
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="(isHandset$ | async) === false">
-    <mat-toolbar color="primary"><span class="text">Menu</span></mat-toolbar>
-    <mat-nav-list>
+    <mat-toolbar color="primary" class='sidenav-toolbar'><span class="text">Menu</span></mat-toolbar>
+    <mat-nav-list (click)='drawer.toggle()'>
       <a mat-list-item color='primary' [routerLink]="[ '/actions/ingredients' ]">Ingredients</a>
       <a mat-list-item color='primary' [routerLink]="[ '/actions/dishes' ]">Dishes</a>
       <a mat-list-item color='primary' [routerLink]="[ '/actions/categories' ]">Categories</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar color="primary">
+    <mat-toolbar color="primary" class='fixed' fixedInViewport>
       <button
         type="button"
         aria-label="Toggle sidenav"

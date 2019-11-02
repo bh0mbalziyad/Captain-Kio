@@ -3,7 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { FireDatabaseService } from './../fire-database.service';
+import { FireDatabaseService } from '../services/fire-database.service';
 import { DataSource } from '@angular/cdk/collections';
 import { Ingredient } from './../create-ingredient/create-ingredient.component';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
@@ -94,6 +94,7 @@ export class MatTableComponent implements OnInit{
       if (result){
         console.log(deepEqual(ingredient,result,{strict: true}));
         !deepEqual(ingredient,result)? this.service.update(result): null;
+        this.snackBar.open('Updated!',null,{duration: 1000});
       }
     })
     

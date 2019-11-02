@@ -21,7 +21,7 @@
                         </mat-select>
                     </mat-form-field>
                     <button mat-raised-button [disabled]='!f.valid' color='primary'>Create</button>
-                    <div class="alert alert-danger" *ngIf="!f.valid">
+                    <div class="alert alert-danger" *ngIf="!f.valid && f.touched">
                         Please fill the required field(s).
                     </div>
                 </div>

@@ -1,0 +1,35 @@
+<mat-table matSort #table  class="mat-elevation-z6">
+     
+    <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+    
+    <!-- Name Column -->
+
+    <ng-container matColumnDef="name">
+        <mat-header-cell mat-sort-header *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+        <mat-cell *matCellDef="let dish"> {{dish.name}} </mat-cell>
+    </ng-container>
+
+    <!-- Quantity Column -->
+    <ng-container matColumnDef="essence">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Veg/Non-Veg </mat-header-cell>
+        <mat-cell *matCellDef="let dish">
+            {{dish.essence}}
+        </mat-cell>
+    </ng-container>
+
+
+    <!-- Quantity Column -->
+    <ng-container matColumnDef="price">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Price </mat-header-cell>
+        <mat-cell *matCellDef="let dish">
+            {{dish.price + '.00/-'}}
+        </mat-cell>
+    </ng-container>
+
+
+
+    <mat-header-row *matHeaderRowDef="displayedColumns;" sticky='true'></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>

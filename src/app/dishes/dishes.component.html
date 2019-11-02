@@ -1,4 +1,62 @@
-<mat-tab-group>
-    <mat-tab label="Manage"></mat-tab>
-    <mat-tab label="Create"></mat-tab>
+<mat-tab-group [selectedIndex]='selectedIndex'>
+    <mat-tab label="Manage">
+        <app-manage-dishes></app-manage-dishes>
+    </mat-tab>
+    <mat-tab label="Create">
+        <div id='main' class="container">
+            <form [formGroup]='dishForm' #form='ngForm'>
+                <div class="row">
+                    <div class="col-sm-6" style="min-height: 350px;">
+                        <!-- Add image for dish -->
+                        <mat-card class="previewWrapper mat-elevation-z7">
+                            <mat-progress-bar *ngIf="isImageBeingUploaded" mode='indeterminate'></mat-progress-bar>
+                            <img *ngIf="isImageSelected" id='previewImg' [src]="imgSrc" width="100%" height="350px" alt="dish-image">
+                            <span *ngIf="!isImageSelected" class="previewText">Select an image for your dish</span>
+                            <input #dishImage (change)='fileSelected($event)' type="file" style="display: none;">
+                        </mat-card>
+                        <button id='filePicker' (click)='dishImage.click()' mat-fab>
+                            <mat-icon>add</mat-icon>
+                        </button>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-container">
+                            
+                                <div class='form-elements'>
+                                    <mat-form-field appearance="standard">
+                                        <mat-label>Dish name</mat-label>
+                                        <input formControlName='dishName' matInput placeholder="Name for your dish">
+                                    </mat-form-field>
+                                    <mat-form-field appearance="standard">
+                                        <mat-label>Dish price</mat-label>
+                                        <input formControlName='dishPrice' type='number' matInput placeholder="Price for your dish">
+                                    </mat-form-field>
+                                    <mat-form-field>
+                                        <mat-select placeholder='Is your dish veg/non-veg?' formControlName='dishEssence'>
+                                            <mat-option>--None--</mat-option>
+                                            <mat-option value="veg">Veg</mat-option>
+                                            <mat-option value="nonveg">Non-Veg</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <mat-form-field>
+                                        <mat-select
+                                        formControlName='dishIngredients'                            
+                                        placeholder='Ingredients'
+                                        multiple>
+        
+                                        <mat-option>--None--</mat-option>
+                                        <mat-option *ngFor="let ingredient of ingredients$" [value]='ingredient.key' >
+                                            {{ingredient.name}}
+                                        </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <button color='primary' [disabled]='form.invalid' (click)='submitDish(form)' mat-raised-button>Create dish</button>
+                                </div>
+
+                            
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </mat-tab>
 </mat-tab-group>

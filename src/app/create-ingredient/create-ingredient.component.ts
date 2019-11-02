@@ -1,4 +1,4 @@
-import { FireDatabaseService } from './../fire-database.service';
+import { FireDatabaseService } from '../services/fire-database.service';
 import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';

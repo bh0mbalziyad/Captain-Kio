@@ -1,4 +1,4 @@
-import { FireDatabaseService } from './../fire-database.service';
+import { FireDatabaseService } from '../services/fire-database.service';
 import { Ingredient } from './../create-ingredient/create-ingredient.component';
 import { Component, OnInit } from '@angular/core';
 

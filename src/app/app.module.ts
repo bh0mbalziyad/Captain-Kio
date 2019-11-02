@@ -1,4 +1,5 @@
-import { FireDatabaseService } from './fire-database.service';
+import { DishesFireService } from './services/dishes-fire-service.service';
+import { FireDatabaseService } from './services/fire-database.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
@@ -10,6 +11,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // TODO Firebase imports here
 import {AngularFireModule} from '@angular/fire';
 import {AngularFireDatabaseModule} from '@angular/fire/database'
+import {AngularFireStorageModule} from '@angular/fire/storage';
+import {AngularFirestoreModule} from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
 
 // material imports here
@@ -26,6 +29,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatProgressBarModule} from '@angular/material/progress-bar'
 
 
 
@@ -49,6 +53,7 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { DialogRefComponent } from './mat-table/dialog-ref/DialogRef.component';
+import { ManageDishesComponent } from './manage-dishes/manage-dishes.component';
 
 const routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -75,6 +80,7 @@ const routes = [
     MatTableComponent,
     TestTableComponent,
     AppMatNavComponent,
+    ManageDishesComponent,
   ],
   entryComponents:[
     DialogRefComponent,
@@ -103,13 +109,17 @@ const routes = [
     MatProgressSpinnerModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
+    AngularFireStorageModule,
+    AngularFirestoreModule,
     LayoutModule,
     MatToolbarModule,
     MatIconModule,
-    MatDialogModule
+    MatDialogModule,
+    MatProgressBarModule
   ],
   providers: [
     FireDatabaseService,
+    DishesFireService
   ],
   bootstrap: [AppComponent]
 })
