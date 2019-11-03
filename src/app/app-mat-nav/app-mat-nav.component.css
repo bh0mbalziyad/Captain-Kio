@@ -11,11 +11,19 @@ mat-toolbar.sidenav-toolbar {
   background-color: #4156b5 !important;
 }
 
-mat-toolbar a {
+mat-toolbar a#nav-button {
   display: inline-block;
   color: white;
   margin: 0px 10px;
   text-decoration: none;
+}
+
+a#hamburger {
+  text-decoration: none;
+}
+
+a#hamburger:hover {
+  color: white;
 }
 
 mat-icon.icon {
@@ -23,9 +31,19 @@ mat-icon.icon {
   top: 4.5px;
 }
 
-
 span.text {
+  position: relative;
+  left: 7px;
   color:white;
+}
+
+
+mat-icon.nav-icon {
+  position: relative;
+  left: 1px;
+}
+mat-icon.nav-icon:hover{
+  cursor: pointer;
 }
 
 .fixed {
@@ -46,11 +64,4 @@ span.empty {
   position: sticky;
   top: 0;
   z-index: 1;
-}
-
-
-@media(min-width: 768px){
-  .sidenav{
-    display: none;
-  }
 }

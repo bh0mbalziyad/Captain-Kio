@@ -1,29 +1,32 @@
 <div class="container">
     <div class="row">
         <div class="col-12">
-            <form [formGroup]='form' #f='ngForm' (ngSubmit)='submit(f)'>
+            <form [formGroup]='form' (ngSubmit)='submit()'>
                 <div class="sample-container">
                     <mat-form-field>
-                        <mat-label>Name</mat-label>
-                        <input formControlName='ingName' matInput placeholder='Name for ingredient' type="text">
+                        <!-- <mat-label>Name</mat-label> -->
+                        <input formControlName='ingName' required matInput placeholder='Name for ingredient' type="text">
                     </mat-form-field>
+                    <div *ngIf="ingName.invalid && ingName.errors.containsRestricted" class="alert alert-danger">
+                        Please use valid characters
+                    </div>
                     <mat-form-field>
-                        <mat-label>Quantity</mat-label>
-                        <input formControlName='ingQuantity' matInput placeholder='Quantity for your ingredient'  type="number">
+                        <!-- <mat-label>Quantity</mat-label> -->
+                        <input formControlName='ingQuantity' required matInput placeholder='Quantity of your ingredient'  type="number">
                     </mat-form-field>
+                    <div *ngIf="ingQuantity.invalid && ingQuantity.errors.containsRestrictedNumber" class="alert alert-danger">
+                        Please use a valid value
+                    </div>
                     <mat-form-field>
-                        <mat-label>Unit</mat-label>
-                        <mat-select formControlName='ingUnit'>
+                        <mat-label>Unit of measurement</mat-label>
+                        <mat-select formControlName='ingUnit' required>
                             <mat-option>None</mat-option>
                             <mat-option *ngFor="let unit of units" [value]="unit.value">
                                 {{unit.name}}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
-                    <button mat-raised-button [disabled]='!f.valid' color='primary'>Create</button>
-                    <div class="alert alert-danger" *ngIf="!f.valid && f.touched">
-                        Please fill the required field(s).
-                    </div>
+                    <button mat-raised-button type="submit" [disabled]='!form.valid' color='primary'>Create</button>
                 </div>
             </form>
         </div>

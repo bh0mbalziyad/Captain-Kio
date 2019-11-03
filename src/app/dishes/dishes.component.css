@@ -22,7 +22,7 @@ div.container div.col-sm-6 {
     top: 0px;
 }
 
-button#filePicker {
+a#filePicker {
     position: absolute;
     bottom: 20px;
     right: 33px;

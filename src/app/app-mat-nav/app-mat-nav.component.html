@@ -3,9 +3,8 @@
       class="sidenav" 
       fixedInViewport
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-      [mode]="(isHandset$ | async) ? 'over' : 'side'"
-      [opened]="(isHandset$ | async) === false">
-    <mat-toolbar color="primary" class='sidenav-toolbar'><span class="text">Menu</span></mat-toolbar>
+      [mode]="(isHandset$ | async) ? 'over' : 'side'">
+    <mat-toolbar color="primary" class='sidenav-toolbar'><mat-icon class='nav-icon' (click)='drawer.toggle()' >menu</mat-icon><span class="text">Menu</span></mat-toolbar>
     <mat-nav-list (click)='drawer.toggle()'>
       <a mat-list-item color='primary' [routerLink]="[ '/actions/ingredients' ]">Ingredients</a>
       <a mat-list-item color='primary' [routerLink]="[ '/actions/dishes' ]">Dishes</a>
@@ -14,22 +13,21 @@
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary" class='fixed' fixedInViewport>
-      <button
-        type="button"
+      <a id='hamburger'
         aria-label="Toggle sidenav"
         mat-icon-button
         (click)="drawer.toggle()"
         *ngIf="isHandset$ | async"
         >
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-      </button>
+      </a>
       <span>Captain Kio <mat-icon class="icon">accessibility_new
       </mat-icon></span>
       <span class='empty'></span>
-      <div id='navLinks' *ngIf="(isHandset$ | async ) === false">
-        <a mat-raised-button color='primary' [routerLink]="[ '/actions/ingredients' ]">Ingredients</a>
-        <a mat-raised-button color='primary' [routerLink]="[ '/actions/dishes' ]">Dishes</a>
-        <a mat-raised-button color='primary' [routerLink]="[ '/actions/categories' ]">Categories</a>
+      <div id='navLinks' *ngIf="!(isHandset$ | async)">
+        <a id='nav-button' mat-raised-button color='primary' [routerLink]="[ '/actions/ingredients' ]">Ingredients</a>
+        <a id='nav-button' mat-raised-button color='primary' [routerLink]="[ '/actions/dishes' ]">Dishes</a>
+        <a id='nav-button' mat-raised-button color='primary' [routerLink]="[ '/actions/categories' ]">Categories</a>
       </div>
     </mat-toolbar>
     <ng-content></ng-content> 

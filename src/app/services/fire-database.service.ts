@@ -32,7 +32,7 @@ export class FireDatabaseService {
 
 
   delete(item: Ingredient): Promise<void>{
-    return this.ref.doc<Ingredient>(item.key).update(item);
+    return this.ref.doc<Ingredient>(item.key).delete();
     // return this.db.object(this.dbPath+'/'+item.key).remove();
   }
 

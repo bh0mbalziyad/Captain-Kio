@@ -56,8 +56,7 @@ import { DialogRefComponent } from './mat-table/dialog-ref/DialogRef.component';
 import { ManageDishesComponent } from './manage-dishes/manage-dishes.component';
 
 const routes = [
-  {path: '', redirectTo: '/home', pathMatch: 'full'},
-  {path: 'home', component: HomeComponent, data: {title: 'Home'}},
+  {path: '', redirectTo: '/actions/ingredients', pathMatch: 'full'},
   {path: 'actions/menus', component: MenuComponent},
   {path: 'actions/categories', component: CategoriesComponent},
   {path: 'actions/dishes', component: DishesComponent},

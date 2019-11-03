@@ -1,9 +1,10 @@
+import { AngularFirestore } from '@angular/fire/firestore';
 import { FireDatabaseService } from '../services/fire-database.service';
-import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, Validators, FormControl, AbstractControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AngularFireDatabase } from '@angular/fire/database';
+import { InputValidators } from '../validators/sync/createForms.validators';
 
 export interface Ingredient{
   name: string;
@@ -17,29 +18,38 @@ export interface Ingredient{
   styleUrls: ['./create-ingredient.component.css']
 })
 export class CreateIngredientComponent implements OnInit {
+  
   form: FormGroup;
-
   units  = [
     {name: 'KG', value: 'kg'},
     {name: 'Ltrs', value: 'ltrs'},
     {name: 'Unit', value: 'unit'}
   ]
 
-  constructor(private fb: FormBuilder, public snackbar: MatSnackBar, private fireService: FireDatabaseService) { 
-  }
-
-  ngOnInit() {
-    this.form = this.fb.group({
-      ingName: ['', [Validators.required]],
-      ingUnit: ['', [Validators.required]],
-      ingQuantity: ['',[Validators.required]]
+  constructor(public snackbar: MatSnackBar, private fireService: FireDatabaseService, private afs: AngularFirestore) { 
+    this.form = new FormGroup({
+      'ingName': new FormControl('', [Validators.required, InputValidators.containsRestricted]),
+      'ingQuantity': new FormControl('', [Validators.required, InputValidators.containsInvalidNumber]),
+      'ingUnit': new FormControl('', [Validators.required]),
     });
   }
 
+  get ingName () {
+    return this.form.get('ingName');
+  }
 
-  submit(form: FormGroup){
+  get ingQuantity () {
+    return this.form.get('ingQuantity');
+  }
+
+  ngOnInit() {
+    
+  }
+
+
+  submit(){
     //TODO Handle ingredient submission
-    let val = form.value;
+    let val = this.form.value;
     var ingredient: Ingredient = {
       name: val.ingName,
       quantity: val.ingQuantity,
@@ -56,6 +66,7 @@ export class CreateIngredientComponent implements OnInit {
       {
         // TODO hanlde undo action
         console.log('Undo.');
+        this.form.reset();
       }
       )
     

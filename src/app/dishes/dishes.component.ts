@@ -5,7 +5,6 @@ import { DishesFireService, Dish, Essence } from './../services/dishes-fire-serv
 import { Component, OnInit } from '@angular/core';
 import {of as observableOf, Observable} from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { read } from 'fs';
 
 
 @Component({
@@ -55,8 +54,8 @@ export class DishesComponent implements OnInit {
     if (file){
       this.isImageSelected = true;
       const reader = new FileReader();
-      reader.onload = e => {
-        this.imgSrc = e.target.result;
+      reader.onload = ev => {
+        this.imgSrc = reader.result;
       }
       reader.readAsDataURL(file);
       this.dishImageFile = file;
@@ -91,9 +90,9 @@ export class DishesComponent implements OnInit {
 
   //function triggered when form is submitted
 
-  submitDish(form: FormGroup){
+  submitDish(){
     this.isImageBeingUploaded = true;
-    let val = form.value;
+    let val = this.dishForm.value;
     let finalDish: Dish = {
       name: val.dishName,
       price: +val.dishPrice,

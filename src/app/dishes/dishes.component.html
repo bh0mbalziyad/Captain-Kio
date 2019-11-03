@@ -4,7 +4,7 @@
     </mat-tab>
     <mat-tab label="Create">
         <div id='main' class="container">
-            <form [formGroup]='dishForm' #form='ngForm'>
+            <form [formGroup]='dishForm' (ngSubmit)='submitDish()'>
                 <div class="row">
                     <div class="col-sm-6" style="min-height: 350px;">
                         <!-- Add image for dish -->
@@ -14,9 +14,9 @@
                             <span *ngIf="!isImageSelected" class="previewText">Select an image for your dish</span>
                             <input #dishImage (change)='fileSelected($event)' type="file" style="display: none;">
                         </mat-card>
-                        <button id='filePicker' (click)='dishImage.click()' mat-fab>
+                        <a id='filePicker' (click)='dishImage.click()' mat-fab>
                             <mat-icon>add</mat-icon>
-                        </button>
+                        </a>
                     </div>
                     <div class="col-sm-6">
                         <div class="form-container">
@@ -49,7 +49,7 @@
                                         </mat-option>
                                         </mat-select>
                                     </mat-form-field>
-                                    <button color='primary' [disabled]='form.invalid' (click)='submitDish(form)' mat-raised-button>Create dish</button>
+                                    <button color='primary' [disabled]='!dishForm.valid' type="submit" mat-raised-button>Create dish</button>
                                 </div>
 
                             
