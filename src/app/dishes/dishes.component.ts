@@ -7,6 +7,7 @@ import { DishesFireService, Dish, Essence, DishIngredient } from './../services/
 import { Component, OnInit } from '@angular/core';
 import {of as observableOf, Observable} from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import * as firebase from 'firebase'; 
 
 
 @Component({
@@ -24,6 +25,7 @@ export class DishesComponent implements OnInit {
   dishForm: FormGroup;
   isImageBeingUploaded = false;
   uploadProgressNumber$: Observable<number>;
+  showIngredients: boolean = true;
 
   constructor(
     private dishService: DishesFireService, 
@@ -35,14 +37,31 @@ export class DishesComponent implements OnInit {
    }
 
   ngOnInit() {
+    const remoteConfig = firebase.remoteConfig()
+    remoteConfig.settings = {
+      minimumFetchIntervalMillis: 2 * 60 * 1000,
+      fetchTimeoutMillis: 5 * 1000,
+    }
+
+    remoteConfig.defaultConfig = ({
+      ingredients_require: true,
+    })
+
+
+    this.showIngredients = remoteConfig.getValue('ingredients_required').asBoolean();
 
     this.dishForm = this.formBuilder.group({
       dishImage:[null ,Validators.required],
       dishName:['',[Validators.required,InputValidators.containsRestricted],],
       dishPrice:['',[Validators.required, InputValidators.containsInvalidNumber]],
       dishEssence:['',Validators.required],
-      dishIngredients:['',Validators.required]
+      dishIngredients:['',Validators.required],
+      dishVideoUrl:['',[]],
+      dishDescription: ['',[Validators.required]],
     });
+  
+    this.dishForm.removeControl('dishIngredients');
+     
     this.getIngredients();
     // this.getDishes();
     
@@ -110,22 +129,26 @@ export class DishesComponent implements OnInit {
   submitDish(){
     this.isImageBeingUploaded = true;
     let val = this.dishForm.value;
-
     let ingredients: DishIngredient[] = [];
 
-
-    (val.dishIngredients as Ingredient[]).forEach(
+    if(this.showIngredients){
+      (val.dishIngredients as Ingredient[]).forEach(
         (item ) => {
-          ingredients.push({name: item.name, key: item.key})
-        }
+        ingredients.push({name: item.name, key: item.key})
+      }
     )
+    } else {let ingredients = null}
+
+    
 
 
     let finalDish: Dish = {
       'name': val.dishName,
       'price': +val.dishPrice,
       'essence': val.dishEssence === "nonveg" ? Essence.nonVeg : Essence.veg,
-      'ingredients': ingredients,
+      'ingredients': ingredients ? ingredients : null,
+      'video_url': val.dishVideoUrl ? val.dishVideoUrl : '',
+      'description' : val.dishDescription
     }
     
     
@@ -133,8 +156,12 @@ export class DishesComponent implements OnInit {
     taskPromise
     .then( results => {
         this.snackBar.open('Your dish was added!','',{duration: 1000})
+        // this.dishForm.reset();
     } )
-    .catch( err => console.error(err) )
+    .catch( err => {
+      console.error(err);
+      this.snackBar.open('An error occurred :(','',{duration: 1000})
+    } )
     .finally( () => this.isImageBeingUploaded=false )
 
 

@@ -1,3 +1,4 @@
+import { DishDialogComponent } from './manage-dishes/dish-dialog/dish-dialog.component';
 import { DishesFireService } from './services/dishes-fire-service.service';
 import { FireDatabaseService } from './services/fire-database.service';
 import { BrowserModule } from '@angular/platform-browser';
@@ -57,6 +58,8 @@ import { ManageDishesComponent } from './manage-dishes/manage-dishes.component';
 
 const routes = [
   {path: '', redirectTo: '/actions/ingredients', pathMatch: 'full'},
+  // Add a component here for testing it's layout before integration
+  // {path: 'testing', component: DishDialogComponent},
   {path: 'actions/categories', component: CategoriesComponent},
   {path: 'actions/dishes', component: DishesComponent},
   {path: 'actions/ingredients', component: IngredientsComponent},
@@ -77,6 +80,7 @@ const routes = [
     MatTableComponent,
     AppMatNavComponent,
     ManageDishesComponent,
+    DishDialogComponent
   ],
   entryComponents:[
     DialogRefComponent,

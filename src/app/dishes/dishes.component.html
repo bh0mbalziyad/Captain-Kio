@@ -24,27 +24,34 @@
                                 <div class='form-elements'>
                                     <mat-form-field appearance="standard">
                                         <mat-label>Dish name</mat-label>
-                                        <input formControlName='dishName' matInput placeholder="Name for your dish">
+                                        <input formControlName='dishName' required matInput placeholder="Name for your dish">
                                     </mat-form-field>
                                     <div *ngIf="dishName.invalid && dishName.touched && dishName.errors?.containsRestricted" class="alert alert-danger">
                                         Your dish name contains invalid characters
                                     </div>
                                     <mat-form-field appearance="standard">
                                         <mat-label>Dish price</mat-label>
-                                        <input formControlName='dishPrice' type='number' matInput placeholder="Price for your dish">
+                                        <input required formControlName='dishPrice' type='number' matInput placeholder="Price for your dish">
                                     </mat-form-field>
                                     <div *ngIf="dishPrice.touched && dishPrice.errors?.containsRestrictedNumber && dishPrice.invalid" class="alert alert-danger">
                                         Please enter a valid price
                                     </div>
                                     <mat-form-field>
-                                        <mat-select placeholder='Is your dish veg/non-veg?' formControlName='dishEssence'>
+                                        <input matInput formControlName='dishVideoUrl' placeholder="Add a video link here" type="url">
+                                    </mat-form-field>
+                                    <mat-form-field>
+                                        <textarea required matInput formControlName='dishDescription' placeholder="Add a description for your dish here" type="text"></textarea>
+                                    </mat-form-field>
+                                    <mat-form-field>
+                                        <mat-select required placeholder='Is your dish veg/non-veg?' formControlName='dishEssence'>
                                             <mat-option>--None--</mat-option>
                                             <mat-option value="veg">Veg</mat-option>
                                             <mat-option value="nonveg">Non-Veg</mat-option>
                                         </mat-select>
                                     </mat-form-field>
-                                    <mat-form-field>
+                                    <mat-form-field  *ngIf="showIngredients" >
                                         <mat-select
+                                        required
                                         formControlName='dishIngredients'                            
                                         placeholder='Ingredients'
                                         multiple>

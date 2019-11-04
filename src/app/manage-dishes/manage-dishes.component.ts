@@ -44,10 +44,10 @@ export class ManageDishesComponent implements OnInit, AfterViewInit {
   deleteDish(dish: Dish){
     this.dishService.deleteDish(dish)
     .then( data => {
-      data.deleted ? this.snackBar.open('Dish was deleted!',null,{duration: 700}) : null 
+      data.deleted ? this.snackBar.open('Dish was deleted!',null,{duration: 1000}) : null 
     } )
     .catch(data => {
-      this.snackBar.open('An error occurred :(',null,{duration: 700})
+      this.snackBar.open('An error occurred :(',null,{duration: 1000})
       console.log('Error log:')
       console.log(data);
       

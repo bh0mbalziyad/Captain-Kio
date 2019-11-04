@@ -1,0 +1,26 @@
+<form (ngSubmit)='submitDish()' >
+    <div class="form-items">
+        <!-- Name for dish -->
+        <mat-form-field>
+            <input type="text" matInput placeholder="Name for your dish" >
+        </mat-form-field>
+        <!-- Price of dish -->
+        <mat-form-field>
+            <input type="text" matInput placeholder="Price of your dish" >
+        </mat-form-field>
+        <!-- Essence of dish -->
+        <mat-form-field>
+            <mat-select placeholder='Veg/Non-veg'>
+                <mat-option class='single' value='veg'>Veg</mat-option>
+                <mat-option class='single' value='nonveg'>Non-veg</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <!-- Ingredients of dish -->
+        <mat-form-field>
+            <mat-select placeholder='Ingredients' multiple>
+                <mat-option>--None--</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <button mat-raised-button color='primary' type="submit" >Submit</button>
+    </div>
+</form>

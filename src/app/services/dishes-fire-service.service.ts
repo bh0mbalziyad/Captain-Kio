@@ -17,9 +17,12 @@ export enum Essence {
 export interface Dish{
   name: string;
   key?: string;
+  img_url?: string;
+  video_url?: string
   price: number;
   essence: Essence;
-  ingredients: DishIngredient[];
+  description: string;
+  ingredients?: DishIngredient[];
 }
 
 export interface DishIngredient{
@@ -31,7 +34,7 @@ export interface DishIngredient{
   providedIn: 'root'
 })
 export class DishesFireService {
-
+  autoID: string;
   private dishImgFolder = 'dishImages/';
   ref: AngularFirestoreCollection<Dish>;
   statusListener$: Subject<string> = new Subject();
@@ -49,43 +52,34 @@ export class DishesFireService {
   }
 
   create(dish: Dish, file: File){
+  
+    return this.ref.add(dish)
+    .then( ref => {
+      this.autoID = ref.id;
+      return this.ref.doc<Dish>(this.autoID).update({key: this.autoID})
+    })
+    .then( success => {
+      return this.storage.upload(this.dishImgFolder+this.autoID,file)
+    })
+    .then( task => {
+      return this.storage.ref(this.dishImgFolder+this.autoID).getDownloadURL().toPromise()
+    }) 
+    .then( result => {
+      const imgUrl = result as string;
+      return this.ref.doc<Dish>(this.autoID).update({'img_url': imgUrl})
+    } )
+    .then( success => {
+      return Promise.resolve({dishCreated: true})
+    } )
+    .catch(err => Promise.reject({dishCreated: false, 'err': err}) )
 
-    let uploadPromise = this.storage.upload(this.dishImgFolder+dish.name, file);
-    let storeEntryPromise = this.ref.doc<Dish>(dish.name).set(dish);
-
-    return Promise.all([uploadPromise, storeEntryPromise])
-
-
-
-
-
-    this.ref.doc<Dish>(dish.name).set(dish)
-    .then(
-      ()=>{
-        this.statusListener$.next('Firestore doc created');
-        const task = this.storage.upload(`${this.dishImgFolder}${dish.name}`,file)
-        task.then(
-          ()=>{
-            this.statusListener$.next('Upload complete');
-            // this.statusListener$.complete();
-          }
-        )
-        .catch(err=>console.log(err)
-        );
-
-        task.percentageChanges()
-        .subscribe(
-          number => this.uploadProgressNumber$.next(number)
-        )
-      }
-    )
 
 
   }
 
     async deleteDish(dish: Dish) : Promise<{deleted: boolean}>{
-    return this.ref.doc<Dish>(dish.name).delete()
-    .then( () => { return this.storage.ref(this.dishImgFolder+dish.name).delete().toPromise() } )
+    return this.ref.doc<Dish>(dish.key).delete()
+    .then( () => { return this.storage.ref(this.dishImgFolder+dish.key).delete().toPromise() } )
     .then( () => { return Promise.resolve({deleted:true}) } )
     .catch( (err) => {
       console.log(err);

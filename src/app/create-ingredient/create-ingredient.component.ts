@@ -58,7 +58,7 @@ export class CreateIngredientComponent implements OnInit {
     this.fireService.create(ingredient);
     console.log(ingredient);
     
-
+    // this.form.reset();
 
     this.snackbar.open(`Ingredient ${ingredient.name} created!`,'Undo',{duration: 2500})
       .onAction().
@@ -66,7 +66,7 @@ export class CreateIngredientComponent implements OnInit {
       {
         // TODO hanlde undo action
         console.log('Undo.');
-        this.form.reset();
+        // this.form.reset();
       }
       )
     
