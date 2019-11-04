@@ -19,8 +19,13 @@ export interface Dish{
   key?: string;
   price: number;
   essence: Essence;
-  ingredientKeys: string[];
+  ingredients: DishIngredient[];
 }
+
+export interface DishIngredient{
+  name : string;
+  key : string
+} 
 
 @Injectable({
   providedIn: 'root'
@@ -44,6 +49,16 @@ export class DishesFireService {
   }
 
   create(dish: Dish, file: File){
+
+    let uploadPromise = this.storage.upload(this.dishImgFolder+dish.name, file);
+    let storeEntryPromise = this.ref.doc<Dish>(dish.name).set(dish);
+
+    return Promise.all([uploadPromise, storeEntryPromise])
+
+
+
+
+
     this.ref.doc<Dish>(dish.name).set(dish)
     .then(
       ()=>{
@@ -58,7 +73,6 @@ export class DishesFireService {
         .catch(err=>console.log(err)
         );
 
-
         task.percentageChanges()
         .subscribe(
           number => this.uploadProgressNumber$.next(number)
@@ -68,6 +82,21 @@ export class DishesFireService {
 
 
   }
+
+    async deleteDish(dish: Dish) : Promise<{deleted: boolean}>{
+    return this.ref.doc<Dish>(dish.name).delete()
+    .then( () => { return this.storage.ref(this.dishImgFolder+dish.name).delete().toPromise() } )
+    .then( () => { return Promise.resolve({deleted:true}) } )
+    .catch( (err) => {
+      console.log(err);
+      return Promise.reject({deleted: false})
+    } )
+  }
+
+   updateDish(dish: Dish){
+
+  }
+
 
 
 

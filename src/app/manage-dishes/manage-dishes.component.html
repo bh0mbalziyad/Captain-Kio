@@ -1,35 +1,64 @@
-<mat-table matSort #table  class="mat-elevation-z6">
-     
-    <!--- Note that these columns can be defined in any order.
-        The actual rendered columns are set as a property on the row definition" -->
-
+<mat-progress-bar *ngIf="loading$ | async" mode='indeterminate' ></mat-progress-bar>
+<div class='main-container'>
+    <mat-form-field id='filter'>
+        <input type="text" matInput placeholder="Filter">
+    </mat-form-field>
+    <mat-table matSort #table  class="mat-elevation-z6">
+         
+        <!--- Note that these columns can be defined in any order.
+            The actual rendered columns are set as a property on the row definition" -->
     
-    <!-- Name Column -->
+        
+        <!-- Name Column -->
+    
+        <ng-container matColumnDef="name">
+            <mat-header-cell mat-sort-header *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+            <mat-cell *matCellDef="let dish"> {{dish.name}} </mat-cell>
+        </ng-container>
+    
+        <!-- Quantity Column -->
+        <ng-container matColumnDef="essence">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Veg/Non-Veg </mat-header-cell>
+            <mat-cell *matCellDef="let dish">
+                {{dish.essence}}
+            </mat-cell>
+        </ng-container>
+    
+    
+        <!-- Quantity Column -->
+        <ng-container matColumnDef="price">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Price </mat-header-cell>
+            <mat-cell *matCellDef="let dish">
+                {{dish.price + '.00/-'}}
+            </mat-cell>
+        </ng-container>
 
-    <ng-container matColumnDef="name">
-        <mat-header-cell mat-sort-header *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
-        <mat-cell *matCellDef="let dish"> {{dish.name}} </mat-cell>
-    </ng-container>
 
-    <!-- Quantity Column -->
-    <ng-container matColumnDef="essence">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Veg/Non-Veg </mat-header-cell>
-        <mat-cell *matCellDef="let dish">
-            {{dish.essence}}
-        </mat-cell>
-    </ng-container>
-
-
-    <!-- Quantity Column -->
-    <ng-container matColumnDef="price">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Price </mat-header-cell>
-        <mat-cell *matCellDef="let dish">
-            {{dish.price + '.00/-'}}
-        </mat-cell>
-    </ng-container>
-
-
-
-    <mat-header-row *matHeaderRowDef="displayedColumns;" sticky='true'></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-</mat-table>
+        <!-- Actions Column -->
+        <ng-container matColumnDef='actions'>
+            <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+            <mat-cell *matCellDef='let dish' >
+                {{''}}
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                        <mat-icon>more_vert</mat-icon>
+                      </button>
+                      <mat-menu #menu="matMenu">
+                        <button mat-menu-item>
+                          <mat-icon>edit</mat-icon>
+                          <span>Edit</span>
+                        </button>
+                        <button (click)='deleteDish(dish)' mat-menu-item>
+                          <mat-icon>delete</mat-icon>
+                          <span>Delete</span>
+                        </button>
+                      </mat-menu>
+            </mat-cell>
+        </ng-container>
+        
+    
+    
+    
+        <mat-header-row *matHeaderRowDef="displayedColumns;" sticky='true'></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+</div>

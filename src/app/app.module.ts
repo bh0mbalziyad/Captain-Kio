@@ -30,6 +30,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatProgressBarModule} from '@angular/material/progress-bar'
+import {MatMenuModule} from '@angular/material/menu';
+
 
 
 
@@ -37,7 +39,6 @@ import {MatProgressBarModule} from '@angular/material/progress-bar'
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { MenuComponent } from './menu/menu.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { DishesComponent } from './dishes/dishes.component';
 import { IngredientsComponent } from './ingredients/ingredients.component';
@@ -47,7 +48,6 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableComponent } from './mat-table/mat-table.component';
-import { TestTableComponent } from './test-table/test-table.component';
 import { AppMatNavComponent } from './app-mat-nav/app-mat-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -57,7 +57,6 @@ import { ManageDishesComponent } from './manage-dishes/manage-dishes.component';
 
 const routes = [
   {path: '', redirectTo: '/actions/ingredients', pathMatch: 'full'},
-  {path: 'actions/menus', component: MenuComponent},
   {path: 'actions/categories', component: CategoriesComponent},
   {path: 'actions/dishes', component: DishesComponent},
   {path: 'actions/ingredients', component: IngredientsComponent},
@@ -70,14 +69,12 @@ const routes = [
     DialogRefComponent,
     HomeComponent,
     NotFoundComponent,
-    MenuComponent,
     CategoriesComponent,
     DishesComponent,
     IngredientsComponent,
     CreateIngredientComponent,
     ManageIngredientsComponent,
     MatTableComponent,
-    TestTableComponent,
     AppMatNavComponent,
     ManageDishesComponent,
   ],
@@ -114,7 +111,8 @@ const routes = [
     MatToolbarModule,
     MatIconModule,
     MatDialogModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatMenuModule
   ],
   providers: [
     FireDatabaseService,

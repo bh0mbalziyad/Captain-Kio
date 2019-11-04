@@ -1,0 +1,180 @@
+[debug] [2019-11-04T11:43:55.269Z] ----------------------------------------------------------------------
+[debug] [2019-11-04T11:43:55.273Z] Command:       /home/ziyadbhombal/.nvm/versions/node/v12.13.0/bin/node /home/ziyadbhombal/.nvm/versions/node/v12.13.0/bin/firebase deploy
+[debug] [2019-11-04T11:43:55.273Z] CLI Version:   7.6.2
+[debug] [2019-11-04T11:43:55.273Z] Platform:      linux
+[debug] [2019-11-04T11:43:55.273Z] Node Version:  v12.13.0
+[debug] [2019-11-04T11:43:55.274Z] Time:          Mon Nov 04 2019 17:13:55 GMT+0530 (India Standard Time)
+[debug] [2019-11-04T11:43:55.274Z] ----------------------------------------------------------------------
+[debug] [2019-11-04T11:43:55.274Z] 
+[debug] [2019-11-04T11:43:55.284Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-11-04T11:43:55.285Z] > authorizing via signed-in user
+[debug] [2019-11-04T11:43:55.285Z] [iam] checking project captain-kio for permissions ["datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update","firebaserules.releases.create","firebaserules.releases.update","firebaserules.rulesets.create"]
+[debug] [2019-11-04T11:43:55.288Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2019-11-04T11:43:55.288Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2019-11-04T11:43:56.479Z] <<< HTTP RESPONSE 200
+[debug] [2019-11-04T11:43:56.555Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/captain-kio:testIamPermissions  
+
+[debug] [2019-11-04T11:43:58.427Z] <<< HTTP RESPONSE 200
+[debug] [2019-11-04T11:43:58.433Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/captain-kio  
+ 
+[debug] [2019-11-04T11:44:00.157Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'captain-kio'...
+[info] 
+[info] i  deploying storage, firestore, hosting
+[debug] [2019-11-04T11:44:00.166Z] >>> HTTP REQUEST GET https://appengine.googleapis.com/v1/apps/captain-kio  
+ 
+[debug] [2019-11-04T11:44:07.344Z] <<< HTTP RESPONSE 200
+[info] i  storage: checking storage.rules for compilation errors...
+[debug] [2019-11-04T11:44:07.350Z] >>> HTTP REQUEST POST https://firebaserules.googleapis.com/v1/projects/captain-kio:test  
+
+[debug] [2019-11-04T11:44:09.527Z] <<< HTTP RESPONSE 200
+[info] ✔  storage: rules file storage.rules compiled successfully
+[info] i  firestore: checking firestore.rules for compilation errors...
+[info] i  firestore: reading indexes from firestore.indexes.json...
+[debug] [2019-11-04T11:44:09.535Z] >>> HTTP REQUEST POST https://firebaserules.googleapis.com/v1/projects/captain-kio:test  
+
+[debug] [2019-11-04T11:44:13.176Z] <<< HTTP RESPONSE 200
+[info] ✔  firestore: rules file firestore.rules compiled successfully
+[debug] [2019-11-04T11:44:13.180Z] >>> HTTP REQUEST POST https://firebasehosting.googleapis.com/v1beta1/sites/captain-kio/versions  
+
+[debug] [2019-11-04T11:44:16.020Z] <<< HTTP RESPONSE 200
+[info] i  storage: uploading rules storage.rules...
+[debug] [2019-11-04T11:44:16.023Z] >>> HTTP REQUEST POST https://firebaserules.googleapis.com/v1/projects/captain-kio/rulesets  
+
+[debug] [2019-11-04T11:44:17.702Z] <<< HTTP RESPONSE 200
+[debug] [2019-11-04T11:44:17.703Z] [rules] created ruleset projects/captain-kio/rulesets/d23c454e-0d2f-4e38-b52a-5cb8c50c389f
+[info] i  firestore: uploading rules firestore.rules...
+[debug] [2019-11-04T11:44:17.709Z] >>> HTTP REQUEST POST https://firebaserules.googleapis.com/v1/projects/captain-kio/rulesets  
+
+[debug] [2019-11-04T11:44:17.711Z] >>> HTTP REQUEST GET https://firestore.googleapis.com/v1beta2/projects/captain-kio/databases/(default)/collectionGroups/-/indexes  
+ 
+[debug] [2019-11-04T11:44:19.290Z] <<< HTTP RESPONSE 200
+[debug] [2019-11-04T11:44:19.292Z] >>> HTTP REQUEST GET https://firestore.googleapis.com/v1beta2/projects/captain-kio/databases/(default)/collectionGroups/-/fields?filter=indexConfig.usesAncestorConfig=false  
+ 
+[debug] [2019-11-04T11:44:19.720Z] <<< HTTP RESPONSE 200
+[debug] [2019-11-04T11:44:19.721Z] [rules] created ruleset projects/captain-kio/rulesets/33dd8c7e-4000-414c-a3fc-8c3970dc1c6b
+[debug] [2019-11-04T11:44:20.521Z] <<< HTTP RESPONSE 200
+[info] ✔  firestore: deployed indexes in firestore.indexes.json successfully
+[info] i  hosting[captain-kio]: beginning deploy...
+[info] i  hosting[captain-kio]: found 10 files in dist/kiosk
+[debug] [2019-11-04T11:44:20.761Z] [hosting] hash cache [ZGlzdC9raW9zaw] stored for 10 files
+[debug] [2019-11-04T11:44:20.762Z] [hosting][hash queue][FINAL]
+[debug] [2019-11-04T11:44:20.762Z] >>> HTTP REQUEST POST https://firebasehosting.googleapis.com/v1beta1/sites/captain-kio/versions/aedcdc44d2e5f95c:populateFiles  
+ <request body omitted>
+[debug] [2019-11-04T11:44:23.036Z] <<< HTTP RESPONSE 200
+[debug] [2019-11-04T11:44:23.046Z] [hosting][populate queue][FINAL]
+[debug] [2019-11-04T11:44:23.046Z] [hosting] uploads queued: 4
+[debug] [2019-11-04T11:45:41.220Z] [uploadQueue] Retrying task 25e1d1ce88dc17da2faaa54a578a9e03d40ff73d696ef1d33834c9661d8c2064
+[debug] [2019-11-04T11:45:52.100Z] [uploadQueue] Retrying task 25e1d1ce88dc17da2faaa54a578a9e03d40ff73d696ef1d33834c9661d8c2064
+[debug] [2019-11-04T11:46:12.597Z] [uploadQueue] Retrying task 25e1d1ce88dc17da2faaa54a578a9e03d40ff73d696ef1d33834c9661d8c2064
+[debug] [2019-11-04T11:46:25.935Z] [uploadQueue] Retrying task 25e1d1ce88dc17da2faaa54a578a9e03d40ff73d696ef1d33834c9661d8c2064
+[debug] [2019-11-04T11:46:42.492Z] [uploadQueue] Retrying task 25e1d1ce88dc17da2faaa54a578a9e03d40ff73d696ef1d33834c9661d8c2064
+[debug] [2019-11-04T11:47:58.244Z] [hosting][upload queue][FINAL]
+[info] ✔  hosting[captain-kio]: file upload complete
+[debug] [2019-11-04T11:47:58.246Z] [hosting] deploy completed after 217721ms
+[debug] [2019-11-04T11:47:59.910Z] [rules] releasing firebase.storage/captain-kio.appspot.com with ruleset projects/captain-kio/rulesets/d23c454e-0d2f-4e38-b52a-5cb8c50c389f
+[debug] [2019-11-04T11:47:59.911Z] >>> HTTP REQUEST PATCH https://firebaserules.googleapis.com/v1/projects/captain-kio/releases/firebase.storage/captain-kio.appspot.com  
+
+[debug] [2019-11-04T11:48:11.802Z] [rules] ruleset update failed, attempting to create instead
+[debug] [2019-11-04T11:48:11.803Z] >>> HTTP REQUEST POST https://firebaserules.googleapis.com/v1/projects/captain-kio/releases  
+
+[debug] [2019-11-04T11:48:49.794Z] Error: Client network socket disconnected before secure TLS connection was established
+    at connResetException (internal/errors.js:570:14)
+    at TLSSocket.onConnectEnd (_tls_wrap.js:1361:19)
+    at Object.onceWrapper (events.js:299:28)
+    at TLSSocket.emit (events.js:215:7)
+    at TLSSocket.EventEmitter.emit (domain.js:476:20)
+    at endReadableNT (_stream_readable.js:1183:12)
+    at processTicksAndRejections (internal/process/task_queues.js:80:21)
+[error] 
+[error] Error: Server Error. Client network socket disconnected before secure TLS connection was established
+[debug] [2019-11-04T11:49:07.655Z] ----------------------------------------------------------------------
+[debug] [2019-11-04T11:49:07.659Z] Command:       /home/ziyadbhombal/.nvm/versions/node/v12.13.0/bin/node /home/ziyadbhombal/.nvm/versions/node/v12.13.0/bin/firebase deploy
+[debug] [2019-11-04T11:49:07.659Z] CLI Version:   7.6.2
+[debug] [2019-11-04T11:49:07.659Z] Platform:      linux
+[debug] [2019-11-04T11:49:07.659Z] Node Version:  v12.13.0
+[debug] [2019-11-04T11:49:07.660Z] Time:          Mon Nov 04 2019 17:19:07 GMT+0530 (India Standard Time)
+[debug] [2019-11-04T11:49:07.660Z] ----------------------------------------------------------------------
+[debug] [2019-11-04T11:49:07.660Z] 
+[debug] [2019-11-04T11:49:07.670Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-11-04T11:49:07.671Z] > authorizing via signed-in user
+[debug] [2019-11-04T11:49:07.671Z] [iam] checking project captain-kio for permissions ["datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update","firebaserules.releases.create","firebaserules.releases.update","firebaserules.rulesets.create"]
+[debug] [2019-11-04T11:49:07.674Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/captain-kio:testIamPermissions  
+
+[debug] [2019-11-04T11:49:21.199Z] <<< HTTP RESPONSE 200
+[debug] [2019-11-04T11:49:21.204Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/captain-kio  
+ 
+[debug] [2019-11-04T11:49:22.367Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'captain-kio'...
+[info] 
+[info] i  deploying storage, firestore, hosting
+[debug] [2019-11-04T11:49:22.376Z] >>> HTTP REQUEST GET https://appengine.googleapis.com/v1/apps/captain-kio  
+ 
+[debug] [2019-11-04T11:49:28.744Z] <<< HTTP RESPONSE 200
+[info] i  storage: checking storage.rules for compilation errors...
+[debug] [2019-11-04T11:49:28.751Z] >>> HTTP REQUEST POST https://firebaserules.googleapis.com/v1/projects/captain-kio:test  
+
+[debug] [2019-11-04T11:49:31.875Z] <<< HTTP RESPONSE 200
+[info] ✔  storage: rules file storage.rules compiled successfully
+[info] i  firestore: checking firestore.rules for compilation errors...
+[info] i  firestore: reading indexes from firestore.indexes.json...
+[debug] [2019-11-04T11:49:31.882Z] >>> HTTP REQUEST POST https://firebaserules.googleapis.com/v1/projects/captain-kio:test  
+
+[debug] [2019-11-04T11:49:59.847Z] Error: socket hang up
+    at connResetException (internal/errors.js:570:14)
+    at TLSSocket.socketOnEnd (_http_client.js:440:23)
+    at TLSSocket.emit (events.js:215:7)
+    at TLSSocket.EventEmitter.emit (domain.js:476:20)
+    at endReadableNT (_stream_readable.js:1183:12)
+    at processTicksAndRejections (internal/process/task_queues.js:80:21)
+[error] 
+[error] Error: Server Error. socket hang up
+[debug] [2019-11-04T11:51:52.779Z] ----------------------------------------------------------------------
+[debug] [2019-11-04T11:51:52.783Z] Command:       /home/ziyadbhombal/.nvm/versions/node/v12.13.0/bin/node /home/ziyadbhombal/.nvm/versions/node/v12.13.0/bin/firebase deploy
+[debug] [2019-11-04T11:51:52.784Z] CLI Version:   7.6.2
+[debug] [2019-11-04T11:51:52.784Z] Platform:      linux
+[debug] [2019-11-04T11:51:52.784Z] Node Version:  v12.13.0
+[debug] [2019-11-04T11:51:52.785Z] Time:          Mon Nov 04 2019 17:21:52 GMT+0530 (India Standard Time)
+[debug] [2019-11-04T11:51:52.785Z] ----------------------------------------------------------------------
+[debug] [2019-11-04T11:51:52.785Z] 
+[debug] [2019-11-04T11:51:52.800Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-11-04T11:51:52.800Z] > authorizing via signed-in user
+[debug] [2019-11-04T11:51:52.800Z] [iam] checking project captain-kio for permissions ["datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update","firebaserules.releases.create","firebaserules.releases.update","firebaserules.rulesets.create"]
+[debug] [2019-11-04T11:51:52.804Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/captain-kio:testIamPermissions  
+
+[debug] [2019-11-04T11:51:55.232Z] <<< HTTP RESPONSE 200
+[debug] [2019-11-04T11:51:55.236Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/captain-kio  
+ 
+[debug] [2019-11-04T11:51:56.952Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'captain-kio'...
+[info] 
+[info] i  deploying storage, firestore, hosting
+[debug] [2019-11-04T11:51:56.962Z] >>> HTTP REQUEST GET https://appengine.googleapis.com/v1/apps/captain-kio  
+ 
+[debug] [2019-11-04T11:52:32.338Z] <<< HTTP RESPONSE 200
+[info] i  storage: checking storage.rules for compilation errors...
+[debug] [2019-11-04T11:52:32.343Z] >>> HTTP REQUEST POST https://firebaserules.googleapis.com/v1/projects/captain-kio:test  
+
+[debug] [2019-11-04T11:52:34.214Z] <<< HTTP RESPONSE 200
+[info] ✔  storage: rules file storage.rules compiled successfully
+[info] i  firestore: checking firestore.rules for compilation errors...
+[info] i  firestore: reading indexes from firestore.indexes.json...
+[debug] [2019-11-04T11:52:34.224Z] >>> HTTP REQUEST POST https://firebaserules.googleapis.com/v1/projects/captain-kio:test  
+
+[debug] [2019-11-04T11:52:36.130Z] <<< HTTP RESPONSE 200
+[info] ✔  firestore: rules file firestore.rules compiled successfully
+[debug] [2019-11-04T11:52:36.133Z] >>> HTTP REQUEST POST https://firebasehosting.googleapis.com/v1beta1/sites/captain-kio/versions  
+
+[debug] [2019-11-04T11:52:57.960Z] Error: socket hang up
+    at connResetException (internal/errors.js:570:14)
+    at TLSSocket.socketOnEnd (_http_client.js:440:23)
+    at TLSSocket.emit (events.js:215:7)
+    at TLSSocket.EventEmitter.emit (domain.js:476:20)
+    at endReadableNT (_stream_readable.js:1183:12)
+    at processTicksAndRejections (internal/process/task_queues.js:80:21)
+[error] 
+[error] Error: Server Error. socket hang up

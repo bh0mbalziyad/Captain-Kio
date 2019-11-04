@@ -17,8 +17,9 @@ import { DataSource } from '@angular/cdk/table';
 export class ManageDishesComponent implements OnInit, AfterViewInit {
   
   dishes$: Observable<Dish[]>;
+  loading$: Observable<Boolean>;
   dataSource: DishesDataSource;
-  displayedColumns = [ 'name', 'essence','price'];
+  displayedColumns = [ 'name', 'essence','price','actions'];
 
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
@@ -30,6 +31,7 @@ export class ManageDishesComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.dataSource = new DishesDataSource(this.dishService);
     this.dataSource.loadData();
+    this.loading$ = this.dataSource.loading$;
   }
 
 
@@ -39,6 +41,22 @@ export class ManageDishesComponent implements OnInit, AfterViewInit {
     this.dataSource.paginator = this.paginator;
   }
 
+  deleteDish(dish: Dish){
+    this.dishService.deleteDish(dish)
+    .then( data => {
+      data.deleted ? this.snackBar.open('Dish was deleted!',null,{duration: 700}) : null 
+    } )
+    .catch(data => {
+      this.snackBar.open('An error occurred :(',null,{duration: 700})
+      console.log('Error log:')
+      console.log(data);
+      
+    })
+  }
+
+  editDish(dish: Dish){
+
+  }
 
 }
 

@@ -21,8 +21,19 @@
             <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
             <mat-cell id='actions' *matCellDef="let ingredient"> 
                 {{''}} 
-                <span (click)='delete(ingredient)' class="delete-icon"><i class="material-icons">delete</i></span>  
-                <span (click)='update(ingredient)' class='update-icon'><i class="material-icons">edit</i></span>
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                        <mat-icon>more_vert</mat-icon>
+                      </button>
+                      <mat-menu #menu="matMenu">
+                        <button (click)='update(ingredient)' mat-menu-item>
+                          <mat-icon>edit</mat-icon>
+                          <span>Edit</span>
+                        </button>
+                        <button (click)='delete(ingredient)' mat-menu-item>
+                          <mat-icon>delete</mat-icon>
+                          <span>Delete</span>
+                        </button>
+                      </mat-menu>
             </mat-cell>
         </ng-container>
         

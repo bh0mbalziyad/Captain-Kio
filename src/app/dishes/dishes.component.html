@@ -26,10 +26,16 @@
                                         <mat-label>Dish name</mat-label>
                                         <input formControlName='dishName' matInput placeholder="Name for your dish">
                                     </mat-form-field>
+                                    <div *ngIf="dishName.invalid && dishName.touched && dishName.errors?.containsRestricted" class="alert alert-danger">
+                                        Your dish name contains invalid characters
+                                    </div>
                                     <mat-form-field appearance="standard">
                                         <mat-label>Dish price</mat-label>
                                         <input formControlName='dishPrice' type='number' matInput placeholder="Price for your dish">
                                     </mat-form-field>
+                                    <div *ngIf="dishPrice.touched && dishPrice.errors?.containsRestrictedNumber && dishPrice.invalid" class="alert alert-danger">
+                                        Please enter a valid price
+                                    </div>
                                     <mat-form-field>
                                         <mat-select placeholder='Is your dish veg/non-veg?' formControlName='dishEssence'>
                                             <mat-option>--None--</mat-option>
@@ -44,7 +50,7 @@
                                         multiple>
         
                                         <mat-option>--None--</mat-option>
-                                        <mat-option *ngFor="let ingredient of ingredients$" [value]='ingredient.key' >
+                                        <mat-option *ngFor="let ingredient of ingredients$" [value]='ingredient' >
                                             {{ingredient.name}}
                                         </mat-option>
                                         </mat-select>

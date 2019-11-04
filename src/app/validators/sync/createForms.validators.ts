@@ -1,3 +1,4 @@
+import { Ingredient } from './../../create-ingredient/create-ingredient.component';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { FireDatabaseService } from './../../services/fire-database.service';
 import { AbstractControl, ValidationErrors } from '@angular/forms';
@@ -27,5 +28,20 @@ export class InputValidators {
             return {containsRestrictedNumber: true}
         }
         return null;
+    }
+
+
+     static nameExists(afs: AngularFirestore,collectionName: string) {
+        return async (control : AbstractControl): Promise<ValidationErrors | null> => {
+            const name = (control.value as string);
+            return afs.collection<Ingredient>(collectionName, ref => ref.where('name','==',name)).valueChanges()
+            .pipe(
+                debounceTime(700),
+                take(1),
+                map(
+                    arr => arr.length ? Promise.resolve({nameExists:true}) : Promise.resolve(null)
+                )
+            ).toPromise()
+        }
     }
 }

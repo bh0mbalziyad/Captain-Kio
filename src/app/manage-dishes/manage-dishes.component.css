@@ -1,0 +1,11 @@
+.main-container {
+    padding: 20px;
+}
+
+.main-container > * {
+    width: 100% !important;
+}
+
+mat-form-field#filter  {
+    padding: 0px 2px;
+}
