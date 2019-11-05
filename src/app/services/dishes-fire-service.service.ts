@@ -87,7 +87,13 @@ export class DishesFireService {
     } )
   }
 
-   updateDish(dish: Dish){
+     async updateDish(dish: Dish){
+     return this.ref.doc<Dish>(dish.key).update(dish)
+     .then( () => Promise.resolve({updated:true}) )
+     .catch(err => {
+        console.error(err);
+        return Promise.reject({updated:false})
+     })
 
   }
 

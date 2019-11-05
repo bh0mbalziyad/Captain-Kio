@@ -1,25 +1,5 @@
-/* style to set to 100vh */
-.height {
-    padding: 0px 15px;
-}
-
-/* Styles for filter and progress bar */
-.main-container {
-    padding: 10px;
-}
-
-.main-container > * {
-    width: 100% !important;
-}
-
-mat-form-field#filter  {
-    padding: 0px 2px;
-}
-
-/* Styles for card list view */
-
 mat-card {
-    margin: 10px 7px;
+    margin: 10px;
     padding: 10px;
 }
 
@@ -55,5 +35,3 @@ span.name {
 .wrapper p:nth-child(1) {
     margin-right: 60px;
 }
-
-

@@ -9,3 +9,7 @@
 mat-option.single:hover {
     background: rgba(53, 49, 49, 0.25) !important;
 }
+
+button {
+    margin: 5px 0px;
+}

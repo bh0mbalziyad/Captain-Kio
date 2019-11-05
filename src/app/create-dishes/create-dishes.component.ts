@@ -1,21 +1,23 @@
-import { InputValidators } from './../validators/sync/createForms.validators';
+import { ActivatedRoute } from '@angular/router';
+import { InputValidators } from '../validators/sync/createForms.validators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { catchError, tap } from 'rxjs/operators';
-import { Ingredient } from './../create-ingredient/create-ingredient.component';
-import { FireDatabaseService } from './../services/fire-database.service';
-import { DishesFireService, Dish, Essence, DishIngredient } from './../services/dishes-fire-service.service';
+import { Ingredient } from '../create-ingredient/create-ingredient.component';
+import { FireDatabaseService } from '../services/fire-database.service';
+import { DishesFireService, Dish, Essence, DishIngredient } from '../services/dishes-fire-service.service';
 import { Component, OnInit } from '@angular/core';
 import {of as observableOf, Observable} from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import * as firebase from 'firebase'; 
+import * as firebase from 'firebase/app';
+import 'firebase/remote-config' 
 
 
 @Component({
   selector: 'app-dishes',
-  templateUrl: './dishes.component.html',
-  styleUrls: ['./dishes.component.css']
+  templateUrl: './create-dishes.component.html',
+  styleUrls: ['./create-dishes.component.css']
 })
-export class DishesComponent implements OnInit {
+export class CreateDishesComponent implements OnInit {
   isImageSelected = false;
   dishImageFile: File;
   imgSrc: any = {};
@@ -31,7 +33,8 @@ export class DishesComponent implements OnInit {
     private dishService: DishesFireService, 
     private ingredientService: FireDatabaseService,
     private formBuilder: FormBuilder,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private route: ActivatedRoute,
   ) {
 
    }
@@ -39,14 +42,17 @@ export class DishesComponent implements OnInit {
   ngOnInit() {
     const remoteConfig = firebase.remoteConfig()
     remoteConfig.settings = {
-      minimumFetchIntervalMillis: 2 * 60 * 1000,
+      minimumFetchIntervalMillis:  3 * 60 * 60 * 1000,
       fetchTimeoutMillis: 5 * 1000,
     }
 
     remoteConfig.defaultConfig = ({
-      ingredients_require: true,
+      ingredients_require: false,
     })
 
+    this.route.queryParamMap.subscribe(
+      route => this.selectedIndex = +route.get('tab')
+    )
 
     this.showIngredients = remoteConfig.getValue('ingredients_required').asBoolean();
 

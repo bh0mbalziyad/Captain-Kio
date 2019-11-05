@@ -1,3 +1,4 @@
+import { TestingComponent } from './testing/testing.component';
 import { DishDialogComponent } from './manage-dishes/dish-dialog/dish-dialog.component';
 import { DishesFireService } from './services/dishes-fire-service.service';
 import { FireDatabaseService } from './services/fire-database.service';
@@ -32,6 +33,8 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatProgressBarModule} from '@angular/material/progress-bar'
 import {MatMenuModule} from '@angular/material/menu';
+import {MatExpansionModule} from '@angular/material/expansion';
+
 
 
 
@@ -41,27 +44,26 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { CategoriesComponent } from './categories/categories.component';
-import { DishesComponent } from './dishes/dishes.component';
+import { CreateDishesComponent } from './create-dishes/create-dishes.component';
 import { IngredientsComponent } from './ingredients/ingredients.component';
 import { CreateIngredientComponent } from './create-ingredient/create-ingredient.component';
 import { ManageIngredientsComponent } from './manage-ingredients/manage-ingredients.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
-import { MatTableComponent } from './mat-table/mat-table.component';
 import { AppMatNavComponent } from './app-mat-nav/app-mat-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
-import { DialogRefComponent } from './mat-table/dialog-ref/DialogRef.component';
+import { DialogRefComponent } from './manage-ingredients/dialog-ref/DialogRef.component';
 import { ManageDishesComponent } from './manage-dishes/manage-dishes.component';
 
 const routes = [
   {path: '', redirectTo: '/actions/ingredients', pathMatch: 'full'},
   // Add a component here for testing it's layout before integration
-  // {path: 'testing', component: DishDialogComponent},
+  {path: 'testing', component: TestingComponent},
   {path: 'actions/categories', component: CategoriesComponent},
-  {path: 'actions/dishes', component: DishesComponent},
+  {path: 'actions/dishes', component: CreateDishesComponent},
   {path: 'actions/ingredients', component: IngredientsComponent},
   {path: '**', component: NotFoundComponent}
 ];
@@ -73,17 +75,18 @@ const routes = [
     HomeComponent,
     NotFoundComponent,
     CategoriesComponent,
-    DishesComponent,
+    CreateDishesComponent,
     IngredientsComponent,
     CreateIngredientComponent,
     ManageIngredientsComponent,
-    MatTableComponent,
     AppMatNavComponent,
     ManageDishesComponent,
-    DishDialogComponent
+    DishDialogComponent,
+    TestingComponent
   ],
   entryComponents:[
     DialogRefComponent,
+    DishDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -116,7 +119,8 @@ const routes = [
     MatIconModule,
     MatDialogModule,
     MatProgressBarModule,
-    MatMenuModule
+    MatMenuModule,
+    MatExpansionModule
   ],
   providers: [
     FireDatabaseService,

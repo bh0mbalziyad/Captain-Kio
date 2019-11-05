@@ -1,3 +1,5 @@
+import { DishDialogComponent } from './dish-dialog/dish-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTable } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
@@ -8,39 +10,39 @@ import { Dish, DishesFireService } from './../services/dishes-fire-service.servi
 import { Observable, Subject, of as observableOf, BehaviorSubject } from 'rxjs';
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { DataSource } from '@angular/cdk/table';
+import * as deepEqual from "deep-equal";
 
 @Component({
   selector: 'app-manage-dishes',
   templateUrl: './manage-dishes.component.html',
   styleUrls: ['./manage-dishes.component.css']
 })
-export class ManageDishesComponent implements OnInit, AfterViewInit {
+export class ManageDishesComponent implements OnInit {
   
-  dishes$: Observable<Dish[]>;
-  loading$: Observable<Boolean>;
-  dataSource: DishesDataSource;
-  displayedColumns = [ 'name', 'essence','price','actions'];
-
-  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
-  @ViewChild(MatSort, {static: false}) sort: MatSort;
-  @ViewChild(MatTable, {static: false}) table: MatTable<Dish>;
+  foodItems$: Observable<Dish[]>;
+  loadingSubject = new BehaviorSubject<Boolean>(false);
+  loading$ = this.loadingSubject.asObservable();
 
 
-  constructor(private dishService: DishesFireService, private snackBar: MatSnackBar) {}
+  constructor(private dishService: DishesFireService, private snackBar: MatSnackBar, private dialog: MatDialog) {}
 
   ngOnInit() {
-    this.dataSource = new DishesDataSource(this.dishService);
-    this.dataSource.loadData();
-    this.loading$ = this.dataSource.loading$;
+    this.getDishes();
   }
 
 
-  ngAfterViewInit(): void {
-    this.table.dataSource = this.dataSource;
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
+
+  getDishes(){
+    this.loadingSubject.next(true)
+    this.foodItems$ = this.dishService.getDishes()
+    this.foodItems$.subscribe(()=>{
+      this.loadingSubject.next(false);
+    })
   }
 
+
+
+  
   deleteDish(dish: Dish){
     this.dishService.deleteDish(dish)
     .then( data => {
@@ -55,54 +57,46 @@ export class ManageDishesComponent implements OnInit, AfterViewInit {
   }
 
   editDish(dish: Dish){
+    const copyOfDish: Dish = {
+      name: dish.name,
+      price: dish.price,
+      description: dish.description,
+      essence: dish.essence,
+      img_url: dish.img_url,
+      video_url: dish.video_url,
+      ingredients: dish.ingredients ? dish.ingredients : null,
+      key: dish.key,
 
-  }
+    }
+    const dialogRef  = this.dialog.open(DishDialogComponent,{
+      'width': "400",
+      'data': copyOfDish
+    });
 
-}
-
-
-export class DishesDataSource extends DataSource<Dish> {
-
-  private dishesSubject = new BehaviorSubject<Dish[]>([]);
-  private loadingSubject = new BehaviorSubject<Boolean>(false);
-  public loading$ = this.loadingSubject.asObservable();
-
-  paginator: MatPaginator;
-  sort: MatSort;
-
-  constructor(private dishService: DishesFireService){
-    super();
-  }
-
-  connect(){
-    return this.dishesSubject.asObservable();
-  }
-
-  loadData(sortBy='name', sortOrder = 'asc', pageIndex = 0, pageSize = 15){
-    this.loadingSubject.next(true);
-    this.dishService.getDishes().pipe(
-      catchError( err => {
-        console.error(err);
-        return observableOf([]);
-        
-      } ),
-      finalize(
-        () => {
-          this.loadingSubject.next(false);
+    dialogRef.afterClosed().subscribe(
+      (result: Dish ) => {
+        console.log('Dialog closed');
+        if ( result ){
+          if (!deepEqual(result,dish,{strict:true}) ){
+              // console.log(result);
+            this.dishService.updateDish(result)
+            .then(
+              (success) => {
+                success ? this.snackBar.open('Updated!',null, {duration: 700}) : null
+              }
+            )
+            .catch(
+              (err) => {
+                console.error(err)
+                this.snackBar.open('An error ocurred :(',null,{duration:700})
+              }
+            )
+          }
         }
-      )
-    )
-    .subscribe(
-      data => {
-        this.dishesSubject.next(data);
-        this.loadingSubject.next(false);
+        
       }
     )
   }
 
-  disconnect(){
-    this.dishesSubject.complete();
-    this.loadingSubject.complete();
-  }
-
 }
+
