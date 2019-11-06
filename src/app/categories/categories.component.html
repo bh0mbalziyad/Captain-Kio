@@ -1,3 +1,32 @@
-<mat-tab-group>
-    <mat-tab label="Manage"></mat-tab>
+<mat-tab-group [selectedIndex]='selectedIndex' >
+    <mat-tab label="Manage">
+            <div class="row">
+                <div class="col-12">
+                    <form [formGroup]='form' (ngSubmit)='submit()' >
+                        <mat-form-field appearance="outline">
+                            <mat-label>Category name</mat-label>
+                            <input formControlName='categoryName' matInput placeholder="Name for your category">
+                            <mat-icon matSuffix>style</mat-icon>
+                            <mat-hint>Eg: Chinese, Continental</mat-hint>
+                            <mat-error *ngIf="categoryName.errors?.required">A name is required</mat-error>
+                            <mat-error *ngIf="categoryName.errors?.containsRestricted">Please use valid characters</mat-error>
+                        </mat-form-field>
+                        <button [disabled]='form.invalid' color='primary' mat-raised-button>Submit</button>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div *ngFor="let category of categories | async"  class="col-12">
+                    <mat-card class="mat-elevation-z8" >
+                        <mat-card-title>
+                            <span class="category-name">{{category.name}}</span>
+                            <span class="empty"></span>
+                            <span (click)='deleteCategory(category)' class="delete">
+                                <mat-icon color='warn'>cancel</mat-icon>
+                            </span>
+                        </mat-card-title>
+                    </mat-card>
+                </div>
+            </div>
+    </mat-tab>
 </mat-tab-group>

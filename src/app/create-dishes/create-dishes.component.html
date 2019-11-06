@@ -25,17 +25,19 @@
                                     <mat-form-field appearance="standard">
                                         <mat-label>Dish name</mat-label>
                                         <input formControlName='dishName' required matInput placeholder="Name for your dish">
+                                        <mat-error *ngIf="dishName.invalid && dishName.touched && dishName.errors?.containsRestricted">
+                                            Your dish name contains invalid characters
+                                        </mat-error>
+                                        <mat-progress-bar *ngIf="dishName.pending" mode="indeterminate"></mat-progress-bar>
+                                        <mat-error *ngIf="dishName.errors?.nameExists">A dish with this name already exists</mat-error>
                                     </mat-form-field>
-                                    <div *ngIf="dishName.invalid && dishName.touched && dishName.errors?.containsRestricted" class="alert alert-danger">
-                                        Your dish name contains invalid characters
-                                    </div>
                                     <mat-form-field appearance="standard">
                                         <mat-label>Dish price</mat-label>
                                         <input required formControlName='dishPrice' type='number' matInput placeholder="Price for your dish">
+                                        <mat-error *ngIf="dishPrice.touched && dishPrice.errors?.containsRestrictedNumber && dishPrice.invalid">
+                                            Please enter a valid price
+                                        </mat-error>
                                     </mat-form-field>
-                                    <div *ngIf="dishPrice.touched && dishPrice.errors?.containsRestrictedNumber && dishPrice.invalid" class="alert alert-danger">
-                                        Please enter a valid price
-                                    </div>
                                     <mat-form-field>
                                         <input matInput formControlName='dishVideoUrl' placeholder="Add a video link here" type="url">
                                     </mat-form-field>

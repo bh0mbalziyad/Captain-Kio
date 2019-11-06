@@ -1,3 +1,4 @@
+import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { InputValidators } from '../validators/sync/createForms.validators';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -32,6 +33,7 @@ export class CreateDishesComponent implements OnInit {
   constructor(
     private dishService: DishesFireService, 
     private ingredientService: FireDatabaseService,
+    private afs: AngularFirestore,
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
     private route: ActivatedRoute,
@@ -58,7 +60,7 @@ export class CreateDishesComponent implements OnInit {
 
     this.dishForm = this.formBuilder.group({
       dishImage:[null ,Validators.required],
-      dishName:['',[Validators.required,InputValidators.containsRestricted],],
+      dishName:['',[Validators.required,InputValidators.containsRestricted],[InputValidators.nameExists(this.afs,'dishes')]],
       dishPrice:['',[Validators.required, InputValidators.containsInvalidNumber]],
       dishEssence:['',Validators.required],
       dishIngredients:['',Validators.required],

@@ -28,7 +28,7 @@ export class CreateIngredientComponent implements OnInit {
 
   constructor(public snackbar: MatSnackBar, private fireService: FireDatabaseService, private afs: AngularFirestore) { 
     this.form = new FormGroup({
-      'ingName': new FormControl('', [Validators.required, InputValidators.containsRestricted]),
+      'ingName': new FormControl('', [Validators.required, InputValidators.containsRestricted],[InputValidators.nameExists(this.afs,'ingredients')]),
       'ingQuantity': new FormControl('', [Validators.required, InputValidators.containsInvalidNumber]),
       'ingUnit': new FormControl('', [Validators.required]),
     });

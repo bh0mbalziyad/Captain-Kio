@@ -18,7 +18,7 @@ import {AngularFirestoreModule} from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
 
 // material imports here
-import {MatCheckboxModule} from '@angular/material';
+import {MatCheckboxModule,MAT_LABEL_GLOBAL_OPTIONS} from '@angular/material';
 import {MatListModule} from '@angular/material/list';
 import {MatCardModule} from '@angular/material/card';
 import {MatSidenavModule} from '@angular/material/sidenav';
@@ -26,7 +26,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule, MatFormFieldControl} from '@angular/material/form-field';
+import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatDialogModule} from '@angular/material/dialog';
@@ -51,17 +51,17 @@ import { ManageIngredientsComponent } from './manage-ingredients/manage-ingredie
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
-import { AppMatNavComponent } from './app-mat-nav/app-mat-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { DialogRefComponent } from './manage-ingredients/dialog-ref/DialogRef.component';
 import { ManageDishesComponent } from './manage-dishes/manage-dishes.component';
+import { CategoryService } from './services/category.service';
 
 const routes = [
   {path: '', redirectTo: '/actions/ingredients', pathMatch: 'full'},
-  // Add a component here for testing it's layout before integration
-  {path: 'testing', component: TestingComponent},
+  // Add a component here for testing itss layout before integration
+  // {path: 'testing', component: TestingComponent},
   {path: 'actions/categories', component: CategoriesComponent},
   {path: 'actions/dishes', component: CreateDishesComponent},
   {path: 'actions/ingredients', component: IngredientsComponent},
@@ -79,7 +79,6 @@ const routes = [
     IngredientsComponent,
     CreateIngredientComponent,
     ManageIngredientsComponent,
-    AppMatNavComponent,
     ManageDishesComponent,
     DishDialogComponent,
     TestingComponent
@@ -124,7 +123,9 @@ const routes = [
   ],
   providers: [
     FireDatabaseService,
-    DishesFireService
+    DishesFireService,
+    CategoryService,
+    {provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: {float: 'auto'}}
   ],
   bootstrap: [AppComponent]
 })

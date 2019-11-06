@@ -1,0 +1,47 @@
+mat-form-field {
+    width: 100%;
+}
+button {
+    width: 100%;
+}
+
+div.row {
+    padding: 10px;
+    margin: 0px;
+}
+
+mat-card{
+    padding: 5px 16px;
+}
+
+
+mat-card-title {
+    display: flex;
+    flex-direction: row;
+}
+
+span.category-name {
+    font-size: 20px;
+    font-weight: 100;
+    position: relative;
+    top: 6px;
+}
+
+span.empty {
+    flex: 1 1 auto;
+}
+
+
+span.delete mat-icon {
+    position: relative;
+    top: 5px;
+    font-size: 30px;
+}
+
+span.delete:hover {
+    cursor: pointer;
+}
+
+div.row div {
+    margin: 10px 0px;
+}
