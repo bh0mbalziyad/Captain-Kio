@@ -34,6 +34,12 @@ span.header {
     top: 10px;
 }
 
+.category {
+    position: absolute;
+    top: 13px;
+    left: 86px;
+}
+
 span.essence {
     right: 10px;
 }

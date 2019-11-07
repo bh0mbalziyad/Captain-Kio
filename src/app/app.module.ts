@@ -18,7 +18,7 @@ import {AngularFirestoreModule} from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
 
 // material imports here
-import {MatCheckboxModule,MAT_LABEL_GLOBAL_OPTIONS,} from '@angular/material';
+import {MatCheckboxModule,MAT_LABEL_GLOBAL_OPTIONS, MatChipsModule,} from '@angular/material';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatListModule} from '@angular/material/list';
 import {MatCardModule} from '@angular/material/card';
@@ -58,6 +58,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { DialogRefComponent } from './manage-ingredients/dialog-ref/DialogRef.component';
 import { ManageDishesComponent } from './manage-dishes/manage-dishes.component';
 import { CategoryService } from './services/category.service';
+import { ConfirmDialogComponent } from './common/dialog/confirm-dialog/confirm-dialog.component';
 
 const routes = [
   {path: '', redirectTo: '/actions/ingredients', pathMatch: 'full'},
@@ -82,11 +83,13 @@ const routes = [
     ManageIngredientsComponent,
     ManageDishesComponent,
     DishDialogComponent,
-    TestingComponent
+    TestingComponent,
+    ConfirmDialogComponent
   ],
   entryComponents:[
     DialogRefComponent,
-    DishDialogComponent
+    DishDialogComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -109,6 +112,7 @@ const routes = [
     MatInputModule,
     MatSelectModule,
     MatSnackBarModule,
+    MatChipsModule,
     MatProgressSpinnerModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,

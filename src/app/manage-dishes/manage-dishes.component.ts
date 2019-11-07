@@ -1,3 +1,4 @@
+import { ConfirmDialogComponent } from './../common/dialog/confirm-dialog/confirm-dialog.component';
 import { DishDialogComponent } from './dish-dialog/dish-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -44,16 +45,33 @@ export class ManageDishesComponent implements OnInit {
 
   
   deleteDish(dish: Dish){
-    this.dishService.deleteDish(dish)
-    .then( data => {
-      data.deleted ? this.snackBar.open('Dish was deleted!',null,{duration: 1000}) : null 
-    } )
-    .catch(data => {
-      this.snackBar.open('An error occurred :(',null,{duration: 1000})
-      console.log('Error log:')
-      console.log(data);
-      
+    const data = {
+      content : 'Are you sure you want to delete this dish?'
+    }
+    this.dialog.open(ConfirmDialogComponent,{
+      width: '400',
+      data: data
     })
+    .afterClosed()
+    .subscribe(
+      (data)=>{
+        if(data){
+          this.dishService.deleteDish(dish)
+          .then( data => {
+            data.deleted ? this.snackBar.open('Dish was deleted!',null,{duration: 1000}) : null 
+          } )
+          .catch(data => {
+            this.snackBar.open('An error occurred :(',null,{duration: 1000})
+            console.log('Error log:')
+            console.log(data);
+            
+          })
+        }        
+      }
+    )
+
+
+    
   }
 
   editDish(dish: Dish){

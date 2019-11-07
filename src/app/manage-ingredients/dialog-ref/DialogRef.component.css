@@ -9,7 +9,8 @@ div.container.col-12 > * {
 }
 
 button[mat-raised-button] {
-    padding: 5px 50px;
+    padding: 5px;
+    margin: 5px 0px;
 }
 
 button#cancel{
@@ -22,6 +23,6 @@ button#update{
 
 .dialog-actions {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
 }

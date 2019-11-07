@@ -1,3 +1,4 @@
+import { Category } from './category.service';
 import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { Ingredient } from '../create-ingredient/create-ingredient.component';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
@@ -22,6 +23,7 @@ export interface Dish{
   price: number;
   essence: Essence;
   description: string;
+  category?: Category;
   ingredients?: DishIngredient[];
 }
 

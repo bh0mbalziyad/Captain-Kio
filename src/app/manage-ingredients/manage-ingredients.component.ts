@@ -1,3 +1,4 @@
+import { ConfirmDialogComponent } from './../common/dialog/confirm-dialog/confirm-dialog.component';
 import { DialogRefComponent } from './dialog-ref/DialogRef.component';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -103,19 +104,31 @@ export class ManageIngredientsComponent implements OnInit{
 
   // Delete item from row
   delete(ingredient: Ingredient){
-    this.service.delete(ingredient).then(
-      ()=>{
-        this.snackBar.open('Deleted!','Undo',{
-          duration: 5000
-        })
-        .onAction()
-        .subscribe(()=>{
-          // TODO hanlde undo delete here
-          this.service.create(ingredient);
-      
-        });
+    this.dialog.open(ConfirmDialogComponent,{
+      width: '400',
+      data: {content: 'Are you sure you want to delete this ingredient?'}
+    })
+    .afterClosed()
+    .subscribe(
+      data => {
+        if (data){
+          this.service.delete(ingredient).then(
+            ()=>{
+              this.snackBar.open('Deleted!',null,{
+                duration: 5000
+              })
+              .onAction()
+              .subscribe(()=>{
+                // TODO hanlde undo delete here
+                this.service.create(ingredient);
+            
+              });
+            }
+          )
+        }
       }
     )
+    
     
   }
 

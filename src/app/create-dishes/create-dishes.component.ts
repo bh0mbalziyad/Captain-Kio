@@ -1,3 +1,4 @@
+import { Category, CategoryService } from './../services/category.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { InputValidators } from '../validators/sync/createForms.validators';
@@ -24,6 +25,7 @@ export class CreateDishesComponent implements OnInit {
   imgSrc: any = {};
   selectedIndex=0;
   ingredients$:Ingredient[]= [];
+  categories$: Observable<Category[]>;
   dishes$: Dish[] = [];
   dishForm: FormGroup;
   isImageBeingUploaded = false;
@@ -33,6 +35,7 @@ export class CreateDishesComponent implements OnInit {
   constructor(
     private dishService: DishesFireService, 
     private ingredientService: FireDatabaseService,
+    private categoryService: CategoryService,
     private afs: AngularFirestore,
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
@@ -49,7 +52,7 @@ export class CreateDishesComponent implements OnInit {
     }
 
     remoteConfig.defaultConfig = ({
-      ingredients_require: false,
+      ingredients_required: false,
     })
 
     this.route.queryParamMap.subscribe(
@@ -65,13 +68,19 @@ export class CreateDishesComponent implements OnInit {
       dishEssence:['',Validators.required],
       dishIngredients:['',Validators.required],
       dishVideoUrl:['',[]],
+      dishCategory: ['',[Validators.required]],
       dishDescription: ['',[Validators.required]],
     });
-  
-    this.dishForm.removeControl('dishIngredients');
+
+    this.categories$ = this.categoryService.getCategories('asc');
+
+    if(this.showIngredients){
+      
+      this.getIngredients();
+    }else{
+      this.dishForm.removeControl('dishIngredients');
+    }
      
-    this.getIngredients();
-    // this.getDishes();
     
   }
 
@@ -156,7 +165,8 @@ export class CreateDishesComponent implements OnInit {
       'essence': val.dishEssence === "nonveg" ? Essence.nonVeg : Essence.veg,
       'ingredients': ingredients ? ingredients : null,
       'video_url': val.dishVideoUrl ? val.dishVideoUrl : '',
-      'description' : val.dishDescription
+      'description' : val.dishDescription,
+      'category': val.dishCategory
     }
     
     

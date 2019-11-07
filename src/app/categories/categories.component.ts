@@ -1,3 +1,5 @@
+import { ConfirmDialogComponent } from './../common/dialog/confirm-dialog/confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Category, CategoryService } from './../services/category.service';
@@ -22,6 +24,7 @@ export class CategoriesComponent implements OnInit,OnDestroy {
   constructor(
     private fb: FormBuilder,
     private afs: AngularFirestore,
+    private dialog: MatDialog,
     private categoryService: CategoryService,
     private snackbar: MatSnackBar) 
     {
@@ -56,16 +59,28 @@ export class CategoriesComponent implements OnInit,OnDestroy {
 
 
   deleteCategory(category: Category){
-    this.categoryService.deleteCategory(category)
-    .then(
-      // ()=>this.snackbar.open('Deleted','',{duration:700})
-    )
-    .catch(
-      err => {
-        console.error(err)
-        this.snackbar.open('An error occurred','',{duration:700})
+    this.dialog.open(ConfirmDialogComponent,{
+      width: '400',
+      data: {content: 'Are you sure you want to remove this category?'}
+    })
+    .afterClosed()
+    .subscribe(
+      data=>{
+        if(data){
+          this.categoryService.deleteCategory(category)
+          .then(
+            ()=>this.snackbar.open('Deleted','',{duration:700})
+          )
+          .catch(
+            err => {
+              console.error(err)
+              this.snackbar.open('An error occurred','',{duration:700})
+            }
+          )
+        }
       }
     )
+    
     
   }
 

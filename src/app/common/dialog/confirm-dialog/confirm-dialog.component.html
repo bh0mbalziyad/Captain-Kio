@@ -1,0 +1,10 @@
+<p mat-dialog-title>{{data.content}}</p>
+<div mat-dialog-actions align='end'>
+    <button (click)='onNoClick()' mat-raised-button color='primary'>
+        Cancel
+    </button>
+    
+    <button mat-raised-button [mat-dialog-close]='data.content' color='warn'>
+        Confirm
+    </button>
+</div>

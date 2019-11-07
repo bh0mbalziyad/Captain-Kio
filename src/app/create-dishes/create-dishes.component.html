@@ -57,6 +57,12 @@
                                             <mat-option value="nonveg">Non-Veg</mat-option>
                                         </mat-select>
                                     </mat-form-field>
+                                    <mat-form-field>
+                                        <mat-select required placeholder='Select a category for your dish' formControlName='dishCategory'>
+                                            <mat-option>--None--</mat-option>
+                                            <mat-option *ngFor="let category of categories$ | async" [value]="category">{{category.name}}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
                                     <mat-form-field  *ngIf="showIngredients" >
                                         <mat-select
                                         required
@@ -70,7 +76,7 @@
                                         </mat-option>
                                         </mat-select>
                                     </mat-form-field>
-                                    <button color='primary' [disabled]='!dishForm.valid || isImageBeingUploaded' type="submit" mat-raised-button>Create dish</button>
+                                    <button color='primary' [disabled]='!dishForm.valid' type="submit" mat-raised-button>Create dish</button>
                                 </div>
 
                             
