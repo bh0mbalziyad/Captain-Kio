@@ -10,6 +10,19 @@ div.container div.col-sm-6 {
     margin: 15px 0px;
 }
 
+.spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 30;
+}
+
+.transparent {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
 .previewWrapper {
     height: 100%;
     display: flex;
@@ -49,4 +62,14 @@ div.form-elements {
 
 div.form-elements > * {
     width: 100%;
+}
+
+@media only screen and (max-width: 575px) {
+    div.form-container {
+        align-items: center;
+    }
+
+    div.form-container > * {
+        width: 95%;
+    }
 }

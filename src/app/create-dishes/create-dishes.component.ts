@@ -113,7 +113,7 @@ export class CreateDishesComponent implements OnInit {
 
   // function to fill ingredients select form control
   getIngredients(){
-    this.ingredientService.getAll()
+    this.ingredientService.getAll('asc')
     .pipe(
       tap(ingredients => {
         this.ingredients$ = ingredients;
@@ -164,30 +164,13 @@ export class CreateDishesComponent implements OnInit {
     taskPromise
     .then( results => {
         this.snackBar.open('Your dish was added!','',{duration: 1000})
-        // this.dishForm.reset();
+        this.dishName.setValue(null)
     } )
     .catch( err => {
       console.error(err);
       this.snackBar.open('An error occurred :(','',{duration: 1000})
     } )
     .finally( () => this.isImageBeingUploaded=false )
-
-
-
-
-    // this.dishService.create(finalDish, this.dishImageFile);
-
-
-
-
-
-    // this.uploadProgressNumber$ = this.dishService.uploadProgressNumber$;
-    // let events = this.dishService.statusListener$;
-
-    // this.uploadProgressNumber$.subscribe( n =>{
-    //   n === 100 ? this.isImageBeingUploaded = false : null
-    // });
-    // events.subscribe( s => console.log('Component',s) );
     
     
     

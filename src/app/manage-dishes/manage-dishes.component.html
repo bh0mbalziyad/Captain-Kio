@@ -1,5 +1,5 @@
 <div class='height'>
-    <mat-progress-bar *ngIf="loading$ | async" mode='indeterminate' ></mat-progress-bar>
+    <mat-progress-spinner class='spinner' *ngIf="loading$ | async"  mode='indeterminate' ></mat-progress-spinner>
     <div class='main-container'>
         <!-- <mat-form-field id='filter'>
             <input type="text" matInput placeholder="Filter">
@@ -20,6 +20,22 @@
                         <span class="wrapper">
                             <p (click)='editDish(food)' >Edit</p>
                             <p (click)='deleteDish(food)' >Delete</p>
+                            <p [matMenuTriggerFor]='setCategory' > Add category </p>
+                            <mat-menu #setCategory="matMenu">
+                                <ng-template matMenuContent>
+                                    <mat-selection-list>
+                                        <mat-list-option>
+                                            Test
+                                        </mat-list-option>
+                                        <mat-list-option>
+                                            Test
+                                        </mat-list-option>
+                                        <mat-list-option>
+                                            Test
+                                        </mat-list-option>
+                                    </mat-selection-list>
+                                </ng-template>
+                            </mat-menu>  
                         </span>
                     </mat-card-content>
                 </mat-card>

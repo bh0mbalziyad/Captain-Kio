@@ -13,7 +13,11 @@ export class TestingComponent implements OnInit {
   constructor(private service: DishesFireService) { }
 
   ngOnInit() {
-    this.foodItems$ = this.service.getDishes();
+    this.foodItems$ = this.service.getDishes('asc');
+  }
+
+  test(value:any){
+    console.log(value)
   }
 
 }

@@ -63,8 +63,6 @@ span.update-icon:hover, span.delete-icon:hover {
 }
 
 
-/* .sample-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-} */
+mat-table {
+    margin-bottom: 20px;
+}

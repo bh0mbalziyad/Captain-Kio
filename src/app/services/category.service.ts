@@ -1,3 +1,4 @@
+import { firestore } from 'firebase';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Injectable } from '@angular/core';
 
@@ -16,9 +17,9 @@ export class CategoryService {
   }
 
 
-  getCategories(orderBy='name',direction='asc',pageIndex=0,pageSize=15){  
+  getCategories(direction: firestore.OrderByDirection,orderBy='name',pageIndex=0,pageSize=15){  
     return this.afs.collection<Category>('category', 
-    query => query.orderBy(orderBy,'asc').startAt(pageIndex*pageSize).limit(pageSize)
+    query => query.orderBy(orderBy,direction).startAt(pageIndex*pageSize).limit(pageSize)
     )
     .valueChanges()
   }

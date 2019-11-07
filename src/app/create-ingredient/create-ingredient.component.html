@@ -10,7 +10,7 @@
                         <mat-error *ngIf="ingName.touched && ingName.errors?.containsRestricted">
                             Please use valid characters
                         </mat-error>
-                        <mat-error *ngIf="ingName.errors?.nameExists" >Name is taken.</mat-error>
+                        <mat-error *ngIf="ingName.errors?.nameExists" >An ingredient with that name has already been added</mat-error>
                         <mat-progress-bar *ngIf="ingName.pending" mode="indeterminate"></mat-progress-bar>
                     </mat-form-field>
                     <mat-form-field floatLabel='auto' appearance="outline">

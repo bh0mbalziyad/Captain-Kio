@@ -56,11 +56,10 @@ export class CreateIngredientComponent implements OnInit {
       unit: val.ingUnit
     }
     this.fireService.create(ingredient);
-    console.log(ingredient);
-    
+    this.ingName.setValue(null)
     // this.form.reset();
 
-    this.snackbar.open(`Ingredient ${ingredient.name} created!`,'Undo',{duration: 2500})
+    this.snackbar.open(`Ingredient ${ingredient.name} created!`,'',{duration: 2500})
       .onAction().
       subscribe(()=>
       {

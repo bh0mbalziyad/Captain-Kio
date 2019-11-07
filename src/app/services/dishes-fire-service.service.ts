@@ -44,10 +44,10 @@ export class DishesFireService {
     this.ref = this.afs.collection<Dish>('dishes');
     this.statusListener$.subscribe(str=>console.log(str));
   }
-
-  getDishes(sortBy='name', pageIndex=0, pageSize=5){
+  
+  getDishes(sortOrder: firestore.OrderByDirection, sortBy='name', pageIndex=0, pageSize=15){
     return this.afs.collection<Dish>('dishes', ref => {
-      return ref.orderBy('price').startAt(pageIndex).limit(pageSize);
+      return ref.orderBy('price',sortOrder).startAt(pageIndex*pageSize).limit(pageSize);
     }).valueChanges();
   }
 

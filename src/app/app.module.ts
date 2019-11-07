@@ -18,7 +18,8 @@ import {AngularFirestoreModule} from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
 
 // material imports here
-import {MatCheckboxModule,MAT_LABEL_GLOBAL_OPTIONS} from '@angular/material';
+import {MatCheckboxModule,MAT_LABEL_GLOBAL_OPTIONS,} from '@angular/material';
+import {MatRadioModule} from '@angular/material/radio';
 import {MatListModule} from '@angular/material/list';
 import {MatCardModule} from '@angular/material/card';
 import {MatSidenavModule} from '@angular/material/sidenav';
@@ -61,7 +62,7 @@ import { CategoryService } from './services/category.service';
 const routes = [
   {path: '', redirectTo: '/actions/ingredients', pathMatch: 'full'},
   // Add a component here for testing itss layout before integration
-  // {path: 'testing', component: TestingComponent},
+  // {path: 'actions/categories/:categoryName', component: TestingComponent},
   {path: 'actions/categories', component: CategoriesComponent},
   {path: 'actions/dishes', component: CreateDishesComponent},
   {path: 'actions/ingredients', component: IngredientsComponent},
@@ -119,7 +120,8 @@ const routes = [
     MatDialogModule,
     MatProgressBarModule,
     MatMenuModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatRadioModule
   ],
   providers: [
     FireDatabaseService,

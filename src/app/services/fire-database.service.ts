@@ -1,3 +1,4 @@
+import { firestore } from 'firebase';
 import { Observable } from 'rxjs';
 import { Ingredient } from '../create-ingredient/create-ingredient.component';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
@@ -36,8 +37,10 @@ export class FireDatabaseService {
     // return this.db.object(this.dbPath+'/'+item.key).remove();
   }
 
-  getAll(): Observable<Ingredient[]>{
-    return this.afs.collection<Ingredient>('ingredients').valueChanges();
+  getAll(sortOrder: firestore.OrderByDirection,sortBy='name',pageIndex=0,pageSize=15): Observable<Ingredient[]>{
+    return this.afs.collection<Ingredient>('ingredients',
+    query=>query.orderBy(sortBy,sortOrder).startAt(pageSize*pageIndex).limit(pageSize)
+    ).valueChanges();
     // return this.ref.valueChanges();
   }
 }

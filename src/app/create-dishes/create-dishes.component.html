@@ -3,14 +3,20 @@
         <app-manage-dishes></app-manage-dishes>
     </mat-tab>
     <mat-tab label="Create">
+        
         <div id='main' class="container">
             <form [formGroup]='dishForm' (ngSubmit)='submitDish()'>
-                <div class="row">
+                <div class="row spinner" *ngIf="isImageBeingUploaded">
+                    <div class="col-sm-12">
+                            <mat-progress-spinner mode='indeterminate'></mat-progress-spinner>
+                    </div>
+                </div>
+                <div [ngClass]="{'transparent': isImageBeingUploaded}" class="row">
                     <div class="col-sm-6" style="min-height: 350px;">
                         <!-- Add image for dish -->
                         <mat-card class="previewWrapper mat-elevation-z7">
                             <mat-progress-bar *ngIf="isImageBeingUploaded" mode='indeterminate'></mat-progress-bar>
-                            <img *ngIf="isImageSelected" id='previewImg' [src]="imgSrc" width="100%" height="350px" alt="dish-image">
+                            <img style="border-radius: 2px;" *ngIf="isImageSelected" id='previewImg' [src]="imgSrc" width="100%" height="350px" alt="dish-image">
                             <span *ngIf="!isImageSelected" class="previewText">Select an image for your dish</span>
                             <input #dishImage (change)='fileSelected($event)' type="file" style="display: none;">
                         </mat-card>
@@ -64,7 +70,7 @@
                                         </mat-option>
                                         </mat-select>
                                     </mat-form-field>
-                                    <button color='primary' [disabled]='!dishForm.valid' type="submit" mat-raised-button>Create dish</button>
+                                    <button color='primary' [disabled]='!dishForm.valid || isImageBeingUploaded' type="submit" mat-raised-button>Create dish</button>
                                 </div>
 
                             

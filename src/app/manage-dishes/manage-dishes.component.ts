@@ -34,7 +34,7 @@ export class ManageDishesComponent implements OnInit {
 
   getDishes(){
     this.loadingSubject.next(true)
-    this.foodItems$ = this.dishService.getDishes()
+    this.foodItems$ = this.dishService.getDishes('asc')
     this.foodItems$.subscribe(()=>{
       this.loadingSubject.next(false);
     })
@@ -80,11 +80,7 @@ export class ManageDishesComponent implements OnInit {
           if (!deepEqual(result,dish,{strict:true}) ){
               // console.log(result);
             this.dishService.updateDish(result)
-            .then(
-              (success) => {
-                success ? this.snackBar.open('Updated!',null, {duration: 700}) : null
-              }
-            )
+            .then()
             .catch(
               (err) => {
                 console.error(err)

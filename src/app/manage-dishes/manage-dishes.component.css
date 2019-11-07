@@ -3,6 +3,12 @@
     padding: 0px 15px;
 }
 
+.spinner {
+    position: relative;
+    left: 45%;
+    top:20px;
+}
+
 /* Styles for filter and progress bar */
 .main-container {
     padding: 10px;
@@ -56,4 +62,7 @@ span.name {
     margin-right: 60px;
 }
 
+.wrapper p:nth-child(2) {
+    margin-right: 60px;
+}
 

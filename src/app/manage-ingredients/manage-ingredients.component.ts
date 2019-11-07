@@ -94,7 +94,7 @@ export class ManageIngredientsComponent implements OnInit{
       if (result){
         console.log(deepEqual(ingredient,result,{strict: true}));
         !deepEqual(ingredient,result)? this.service.update(result): null;
-        this.snackBar.open('Updated!',null,{duration: 1000});
+        // this.snackBar.open('Updated!',null,{duration: 1000});
       }
     })
     
@@ -159,7 +159,7 @@ export class IngredientDataSource extends DataSource<Ingredient>{
 
   loadData(sort?:boolean, paginate?:boolean){
     this.loadingSubject.next(true);
-    this.service.getAll()
+    this.service.getAll('asc')
 
       .pipe(
         catchError(

@@ -5,6 +5,13 @@ button {
     width: 100%;
 }
 
+.spinner {
+    margin: 0px 15px;
+    position: relative;
+    left: 45%;
+    top: 10px;
+}
+
 div.row {
     padding: 10px;
     margin: 0px;
