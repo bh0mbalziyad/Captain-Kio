@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { MatTabChangeEvent } from '@angular/material';
  
 @Component({
   selector: 'app-ingredients',
@@ -17,6 +18,10 @@ export class IngredientsComponent implements OnInit {
         this.selectedIndex= +route.get('tab');
       }
     )
+  }
+
+  tabChange(event: MatTabChangeEvent){
+    this.selectedIndex = event.index;
   }
 
 }

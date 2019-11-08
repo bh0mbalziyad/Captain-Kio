@@ -1,26 +1,31 @@
 <div class="container">
     <div class="row">
         <div class="col-12 container">
-            <mat-form-field>
-                <mat-label>Name<sup>*</sup></mat-label>
-                <input matInput  [(ngModel)]="data.name" placeholder="Name for ingredient" type="text">
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Quantity<sup>*</sup></mat-label>
-                <input matInput [(ngModel)]="data.quantity" placeholder="Quantity for ingredient" type="number">
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Unit<sup>*</sup></mat-label>
-                <mat-select [(value)]='data.unit'>
-                    <mat-option value='unit'>Unit</mat-option>
-                    <mat-option value='kg'>Kg</mat-option>
-                    <mat-option value='ltrs'>Ltrs</mat-option>
-                </mat-select>
-            </mat-form-field>
-            <div class="dialog-actions">
-                <button id='cancel' mat-raised-button (click)='onNoClick()' color='primary'>Cancel</button>
-                <button id='update' [mat-dialog-close]='data' mat-raised-button color='primary'>Update</button>
-            </div>
+            <form [formGroup]='form'>
+                <mat-form-field>
+                    <mat-label>Name</mat-label>
+                    <input matInput formControlName='name' placeholder="Name for ingredient" type="text">
+                    <mat-progress-bar *ngIf="ingName.pending" mode='indeterminate'></mat-progress-bar>
+                    <mat-error *ngIf="ingName.errors?.nameExists">An ingredient with that name already exists</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Quantity</mat-label>
+                    <input matInput formControlName='quantity' placeholder="Quantity for ingredient" type="number">
+                    <mat-error *ngIf="ingQuantity.errors?.containsRestrictedNumber">Please enter a valid value</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Unit</mat-label>
+                    <mat-select formControlName='unit'>
+                        <mat-option value='unit'>Unit</mat-option>
+                        <mat-option value='kg'>Kg</mat-option>
+                        <mat-option value='ltrs'>Ltrs</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div class="dialog-actions">
+                    <a id='cancel' mat-raised-button (click)='onNoClick()' color='warn'>Cancel</a>
+                    <a id='update' (click)='onSubmitClicked()' [disabled]='form.invalid || ingName.pending' mat-raised-button color='primary'>Update</a>
+                </div>
+            </form>
         </div>
     </div>
 </div>

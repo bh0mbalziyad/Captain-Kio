@@ -1,4 +1,7 @@
-<mat-tab-group class='fixed' [selectedIndex]='selectedIndex'>
+<mat-toolbar style="background: #dcdcdc; color: #000000; font-weight: 500;" fixedInViewport>
+    <span>Ingredients</span><mat-icon>keyboard_arrow_right</mat-icon> {{ selectedIndex == 0 ? 'Manage' : 'Create' }}
+</mat-toolbar>
+<mat-tab-group class='fixed' (selectedTabChange)='tabChange($event)' [selectedIndex]='selectedIndex'>
     <mat-tab label="Manage"> <manage-ingredients></manage-ingredients> </mat-tab>
     <mat-tab label="Create"> <create-ingredient></create-ingredient> </mat-tab>
 </mat-tab-group> 

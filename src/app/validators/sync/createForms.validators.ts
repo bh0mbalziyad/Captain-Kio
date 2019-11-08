@@ -33,21 +33,47 @@ export class InputValidators {
         return null;
     }
 
+    static EditFieldNameTaken(afs: AngularFirestore, startingName: string, collectionName: string){
+        return async (control: AbstractControl): Promise<any> => {
+            const originalFieldValue = startingName;
+            const success = await afs.collection<Ingredient | Dish>(
+                collectionName,
+                query => query.where('name','==',(control.value as string))
+            )
+            .valueChanges()
+            .pipe(
+                distinctUntilChanged(),
+                debounceTime(500),
+                take(1),
+                map(data=>{
+                    // case where data.length is greater than zero and it has
+                    // an object with name which matches start value for the given control field
+                    if(data.length >=1 && data[0].name == startingName) return ({nameTaken:false})
+                    else if (data.length >=1) return ({nameTaken:true})
+                    else return ({nameTaken:false})
+                })
+                
+            )
+            .toPromise()
+            return success.nameTaken ? Promise.resolve({nameExists:true}) : Promise.resolve(null)
+        }
+    }
 
-     static nameExists(afs: AngularFirestore,collectionName: string) {
-        return async (control: AbstractControl):Promise<any>=>{
-            const success = await afs.collection<Dish | Ingredient>(collectionName, query => query.where('name', '==', (control.value as string)))
-                .valueChanges()
-                .pipe(distinctUntilChanged(), debounceTime(500), take(1), map(data => {
-                    if (data.length >= 1) {
-                        return ({ nameTaken: true });
-                    }
-                    else {
-                        return ({ nameTaken: false });
-                    }
-                }))
-                .toPromise();
-            return await (success.nameTaken ? Promise.resolve({ nameExists: true }) : Promise.resolve(null));
+
+    static nameExists(afs: AngularFirestore,collectionName: string) {
+    return async (control: AbstractControl):Promise<any>=>{
+        const success = await afs.collection<Dish | Ingredient>(collectionName, query => query.where('name', '==', (control.value as string)))
+            .valueChanges()
+            .pipe(distinctUntilChanged(), debounceTime(500), take(1), map(data => {
+                if (data.length >= 1) {
+                    return ({ nameTaken: true });
+                }
+                else {
+                    return ({ nameTaken: false });
+                }
+            }))
+            .toPromise();
+        return await (success.nameTaken ? Promise.resolve({ nameExists: true }) : Promise.resolve(null));
         }
     }
 }

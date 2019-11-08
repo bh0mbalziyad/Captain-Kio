@@ -1,4 +1,7 @@
-<mat-tab-group [selectedIndex]='selectedIndex'>
+<mat-toolbar style="background: #dcdcdc; font-weight: 500; color: #000000;">
+    <span>Food items</span><mat-icon>keyboard_arrow_right</mat-icon><span>{{ selectedIndex == 0 ? 'Manage' : 'Create' }}</span>
+</mat-toolbar>
+<mat-tab-group (selectedTabChange)='tabChange($event)' [selectedIndex]='selectedIndex'>
     <mat-tab label="Manage">
         <app-manage-dishes></app-manage-dishes>
     </mat-tab>
@@ -12,19 +15,32 @@
                     </div>
                 </div>
                 <div [ngClass]="{'transparent': isImageBeingUploaded}" class="row">
-                    <div class="col-sm-6" style="min-height: 350px;">
+                    <div class="col-sm-6" style="min-height: 270px;">
                         <!-- Add image for dish -->
-                        <mat-card class="previewWrapper mat-elevation-z7">
+                        <mat-card (click)='dishImage.click()' class="previewWrapper mat-elevation-z7">
                             <mat-progress-bar *ngIf="isImageBeingUploaded" mode='indeterminate'></mat-progress-bar>
-                            <img style="border-radius: 2px;" *ngIf="isImageSelected" id='previewImg' [src]="imgSrc" width="100%" height="350px" alt="dish-image">
-                            <span *ngIf="!isImageSelected" class="previewText">Select an image for your dish</span>
-                            <input #dishImage (change)='fileSelected($event)' type="file" style="display: none;">
+                            <img style="border-radius: 2px;" *ngIf="isImageSelected" id='previewImg' [src]="imgSrc" width="100%" height="270px" alt="dish-image">
+                            <span *ngIf="!isImageSelected" class="previewText">Click here to select an image for your dish</span>
+                            <input #dishImage  (change)='imageFileSelected($event)' type="file" accept="image/*" style="display: none;">
                         </mat-card>
-                        <a id='filePicker' (click)='dishImage.click()' mat-fab>
+                        <a (click)='dishImage.click()' id='filePicker'mat-fab>
                             <mat-icon>add</mat-icon>
                         </a>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-6" style="min-height: 270px;">
+                        <!-- Add video for dish -->
+                        <mat-card (click)='dishVideo.click()' class="previewWrapper mat-elevation-z7">
+                            <mat-progress-bar *ngIf="isVideoBeingUploaded" mode='indeterminate'></mat-progress-bar>
+                            <!-- <img style="border-radius: 2px;" *ngIf="isImageSelected" id='previewImg' [src]="imgSrc" width="100%" height="270px" alt="dish-image"> -->
+                            <span *ngIf="!isVideoSelected" class="previewText">Click here to select a video for your dish</span>
+                            <span *ngIf="isVideoSelected" class="previewText">{{'The video file you selected is\n' + videoSrc}}</span>
+                            <input #dishVideo (change)='videoFileSelected($event)' type="file" accept="video/*" style="display: none;">
+                        </mat-card>
+                        <a id='filePicker'mat-fab (click)='dishVideo.click()'>
+                            <mat-icon>add</mat-icon>
+                        </a>
+                    </div>
+                    <div class="col-sm-12">
                         <div class="form-container">
                             
                                 <div class='form-elements'>
@@ -45,9 +61,6 @@
                                         </mat-error>
                                     </mat-form-field>
                                     <mat-form-field>
-                                        <input matInput formControlName='dishVideoUrl' placeholder="Add a video link here" type="url">
-                                    </mat-form-field>
-                                    <mat-form-field>
                                         <textarea required matInput formControlName='dishDescription' placeholder="Add a description for your dish here" type="text"></textarea>
                                     </mat-form-field>
                                     <mat-form-field>
@@ -60,7 +73,7 @@
                                     <mat-form-field>
                                         <mat-select required placeholder='Select a category for your dish' formControlName='dishCategory'>
                                             <mat-option>--None--</mat-option>
-                                            <mat-option *ngFor="let category of categories$ | async" [value]="category">{{category.name}}</mat-option>
+                                            <mat-option *ngFor="let category of categories$ | async" [value]="category.name">{{category.name}}</mat-option>
                                         </mat-select>
                                     </mat-form-field>
                                     <mat-form-field  *ngIf="showIngredients" >

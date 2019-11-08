@@ -23,7 +23,7 @@ export interface Dish{
   price: number;
   essence: Essence;
   description: string;
-  category?: Category;
+  category?: string;
   ingredients?: DishIngredient[];
 }
 
@@ -38,13 +38,14 @@ export interface DishIngredient{
 export class DishesFireService {
   autoID: string;
   private dishImgFolder = 'dishImages/';
+  private dishVideoFolder = 'dishVideos/';
   ref: AngularFirestoreCollection<Dish>;
   statusListener$: Subject<string> = new Subject();
   uploadProgressNumber$: Subject<number> = new Subject();
 
   constructor(private rtdb: AngularFireDatabase, private storage: AngularFireStorage, private afs: AngularFirestore) {
     this.ref = this.afs.collection<Dish>('dishes');
-    this.statusListener$.subscribe(str=>console.log(str));
+    // this.statusListener$.subscribe(str=>console.log(str));
   }
   
   getDishes(sortOrder: firestore.OrderByDirection, sortBy='name', pageIndex=0, pageSize=15){
@@ -53,49 +54,48 @@ export class DishesFireService {
     }).valueChanges();
   }
 
-  create(dish: Dish, file: File){
-  
-    return this.ref.add(dish)
-    .then( ref => {
-      this.autoID = ref.id;
-      return this.ref.doc<Dish>(this.autoID).update({key: this.autoID})
+
+
+  async altCreate(dish:Dish,dishImage:File, dishVideo: File){
+    const id = this.afs.createId()
+    dish.key = id;
+    await Promise.all([
+      this.ref.doc<Dish>(id).set(dish),
+      this.storage.upload(this.dishImgFolder+id,dishImage),
+      this.storage.upload(this.dishVideoFolder+id,dishVideo)
+    ])
+    const videoUrl = await this.storage.ref(this.dishVideoFolder+id).getDownloadURL().toPromise();
+    const imageUrl = await this.storage.ref(this.dishImgFolder+id).getDownloadURL().toPromise();
+    return this.ref.doc<Dish>(id).update({
+      img_url: imageUrl as string,
+      video_url: videoUrl as string,
     })
-    .then( success => {
-      return this.storage.upload(this.dishImgFolder+this.autoID,file)
-    })
-    .then( task => {
-      return this.storage.ref(this.dishImgFolder+this.autoID).getDownloadURL().toPromise()
-    }) 
-    .then( result => {
-      const imgUrl = result as string;
-      return this.ref.doc<Dish>(this.autoID).update({'img_url': imgUrl})
-    } )
-    .then( success => {
-      return Promise.resolve({dishCreated: true})
-    } )
-    .catch(err => Promise.reject({dishCreated: false, 'err': err}) )
-
-
-
+    
   }
 
     async deleteDish(dish: Dish) : Promise<{deleted: boolean}>{
-    return this.ref.doc<Dish>(dish.key).delete()
-    .then( () => { return this.storage.ref(this.dishImgFolder+dish.key).delete().toPromise() } )
-    .then( () => { return Promise.resolve({deleted:true}) } )
-    .catch( (err) => {
-      console.log(err);
-      return Promise.reject({deleted: false})
-    } )
+
+    return Promise.all(
+      [
+        this.storage.ref(this.dishImgFolder+dish.key).delete().toPromise(),
+        this.storage.ref(this.dishVideoFolder+dish.key).delete().toPromise(),
+        this.ref.doc<Dish>(dish.key).delete()
+      ]
+    )
+    .then( ()=>Promise.resolve({deleted:true}) )
+    .catch(err=>{
+      console.error(err)
+      return Promise.reject({deleted:false})
+    })
   }
 
-     async updateDish(dish: Dish){
-     return this.ref.doc<Dish>(dish.key).update(dish)
-     .then( () => Promise.resolve({updated:true}) )
-     .catch(err => {
-        console.error(err);
-        return Promise.reject({updated:false})
-     })
+    async updateDish(dish: Dish){
+    return this.ref.doc<Dish>(dish.key).update(dish)
+    .then( () => Promise.resolve({updated:true}) )
+    .catch(err => {
+      console.error(err);
+      return Promise.reject({updated:false})
+    })
 
   }
 

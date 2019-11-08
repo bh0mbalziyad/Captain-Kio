@@ -7,7 +7,7 @@
 
   <mat-sidenav-container class="example-sidenav-container"
                          [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
-    <mat-sidenav  [autoFocus]="false" #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
+    <mat-sidenav [opened]='mobileQuery.matches ? false : true'  [autoFocus]="false" #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
                  [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
       <mat-nav-list>
         <ng-container mat-list-item>
@@ -18,13 +18,13 @@
                 </mat-panel-title>
               </mat-expansion-panel-header>
               <mat-action-list>
-                <button (click)='snav.toggle()' mat-list-item routerLink="/actions/dishes" [queryParams]='{tab : 0}'>Manage</button>
-                <button (click)='snav.toggle()' mat-list-item routerLink="/actions/dishes" [queryParams]='{tab : 1}'>Create</button>
+                <button (click)='mobileQuery.matches? snav.toggle() : null' mat-list-item routerLink="/actions/dishes" [queryParams]='{tab : 0}'>Manage</button>
+                <button (click)='mobileQuery.matches? snav.toggle() : null' mat-list-item routerLink="/actions/dishes" [queryParams]='{tab : 1}'>Create</button>
               </mat-action-list>
           </mat-expansion-panel>
         </ng-container>
         <mat-divider></mat-divider>
-        <ng-container mat-list-item>
+        <ng-container *ngIf="false" mat-list-item>
           <mat-expansion-panel [class.mat-elevation-z0]="true" dense>
               <mat-expansion-panel-header>
                   <mat-panel-title>
@@ -33,13 +33,13 @@
                   </mat-panel-title>
               </mat-expansion-panel-header>
               <mat-action-list>
-                <button (click)='snav.toggle()' mat-list-item routerLink="/actions/ingredients" [queryParams]='{tab : 0}' >Manage</button>
-                <button (click)='snav.toggle()' mat-list-item routerLink="/actions/ingredients" [queryParams]='{tab : 1}' >Create</button>
+                <button (click)='mobileQuery.matches? snav.toggle() : null' mat-list-item routerLink="/actions/ingredients" [queryParams]='{tab : 0}' >Manage</button>
+                <button (click)='mobileQuery.matches? snav.toggle() : null' mat-list-item routerLink="/actions/ingredients" [queryParams]='{tab : 1}' >Create</button>
               </mat-action-list>
           </mat-expansion-panel>
         </ng-container>
-        <mat-divider></mat-divider>
-        <a (click)='snav.toggle()' routerLink="/actions/categories" [queryParams]='{tab : 0}' class='categories' mat-list-item> 
+        <mat-divider *ngIf="false"></mat-divider>
+        <a (click)='mobileQuery.matches? snav.toggle() : null' routerLink="/actions/categories" [queryParams]='{tab : 0}' class='categories' mat-list-item> 
           <!-- <mat-icon>view_list</mat-icon> -->
           Categories
         </a>

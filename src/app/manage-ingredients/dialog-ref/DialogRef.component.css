@@ -8,18 +8,16 @@ div.container.col-12 > * {
     margin: 10px 0px;
 }
 
-button[mat-raised-button] {
+mat-form-field {
+    width: 100%;
+    margin: 10px 0px;
+}
+
+a[mat-raised-button] {
     padding: 5px;
     margin: 5px 0px;
 }
 
-button#cancel{
-    background-color: red;
-}
-
-button#update{
-    background-color: #328621;
-}
 
 .dialog-actions {
     display: flex;

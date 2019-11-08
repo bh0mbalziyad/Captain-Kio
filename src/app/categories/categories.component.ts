@@ -1,12 +1,12 @@
 import { ConfirmDialogComponent } from './../common/dialog/confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, of } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Category, CategoryService } from './../services/category.service';
 import { InputValidators } from './../validators/sync/createForms.validators';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { tap } from 'rxjs/operators';
+import { tap, map } from 'rxjs/operators';
 import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
@@ -39,14 +39,20 @@ export class CategoriesComponent implements OnInit,OnDestroy {
   }
   
   getCategories(){
-    this.categories$ = this.categoryService.getCategories('asc');
-    this.categories$
+    this.categories$ = this.categoryService.getCategories('asc')
+    .snapshotChanges()
     .pipe(
-      tap(
-        () => this.loadingSubject.next(false)
-      )
+      tap(()=>this.loadingSubject.next(false)),
+      map(data => {
+        return data.map( a=> {
+          let val: Category = {
+            name : a.payload.doc.data().name,
+            key: a.payload.doc.id
+          }
+          return val;
+        })
+      })
     )
-    .subscribe()
   }
 
   ngOnDestroy(): void {
@@ -61,22 +67,22 @@ export class CategoriesComponent implements OnInit,OnDestroy {
   deleteCategory(category: Category){
     this.dialog.open(ConfirmDialogComponent,{
       width: '400',
-      data: {content: 'Are you sure you want to remove this category?'}
+      data: {content: 'Deleting this category will also delete all the Food items in this category\nAre you sure want to remove this category?'}
     })
     .afterClosed()
     .subscribe(
       data=>{
         if(data){
           this.categoryService.deleteCategory(category)
-          .then(
-            ()=>this.snackbar.open('Deleted','',{duration:700})
-          )
-          .catch(
-            err => {
-              console.error(err)
-              this.snackbar.open('An error occurred','',{duration:700})
-            }
-          )
+          // .then(
+          //   ()=>this.snackbar.open('Deleted','',{duration:700})
+          // )
+          // .catch(
+          //   err => {
+          //     console.error(err)
+          //     this.snackbar.open('An error occurred','',{duration:700})
+          //   }
+          // )
         }
       }
     )

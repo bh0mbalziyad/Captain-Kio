@@ -9,10 +9,9 @@
             <div *ngFor="let food of foodItems$ | async" class="col-lg-12">
                 <mat-card class="mat-elevation-z8" >
                     <mat-card-title>
-                        <span class="name">{{food.name}}</span>
-                        <!-- <mat-chip-list class='category'>
-                                <mat-chip selected color='primary'>{{food?.category?.name}}</mat-chip>
-                        </mat-chip-list> -->
+                        <div class="title-wrapper">
+                            <span class="name">{{food.name}}</span>
+                        </div>
                         <span class='header essence'>
                             <img *ngIf="food.essence === 'nonveg'" src="../../assets/non-veg.png" height="38px" width="38px" alt="Non-veg food">
                             <img *ngIf="food.essence === 'veg'" src="../../assets/veg.png" height="38px" width="38px" alt="Vegetarian food">

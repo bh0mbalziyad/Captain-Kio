@@ -35,9 +35,7 @@ span.header {
 }
 
 .category {
-    position: absolute;
-    top: 13px;
-    left: 86px;
+    position: relative;
 }
 
 span.essence {
@@ -46,6 +44,16 @@ span.essence {
 
 span.name {
     font-size: 22px;
+}
+
+
+
+.title-wrapper {
+    display: inline-flex;
+    justify-content: flex-start;
+    align-items: baseline;
+    flex-wrap: wrap;
+
 }
 
 

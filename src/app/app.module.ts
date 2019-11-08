@@ -63,10 +63,10 @@ import { ConfirmDialogComponent } from './common/dialog/confirm-dialog/confirm-d
 const routes = [
   {path: '', redirectTo: '/actions/ingredients', pathMatch: 'full'},
   // Add a component here for testing itss layout before integration
-  // {path: 'actions/categories/:categoryName', component: TestingComponent},
+  // {path: 'actions/categories/:categoryName', component: VideoUploadComponent},
   {path: 'actions/categories', component: CategoriesComponent},
   {path: 'actions/dishes', component: CreateDishesComponent},
-  {path: 'actions/ingredients', component: IngredientsComponent},
+  // {path: 'actions/ingredients', component: IngredientsComponent},
   {path: '**', component: NotFoundComponent}
 ];
 
@@ -84,7 +84,7 @@ const routes = [
     ManageDishesComponent,
     DishDialogComponent,
     TestingComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
   ],
   entryComponents:[
     DialogRefComponent,

@@ -3,7 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { InputValidators } from '../validators/sync/createForms.validators';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, tap, map } from 'rxjs/operators';
 import { Ingredient } from '../create-ingredient/create-ingredient.component';
 import { FireDatabaseService } from '../services/fire-database.service';
 import { DishesFireService, Dish, Essence, DishIngredient } from '../services/dishes-fire-service.service';
@@ -12,6 +12,7 @@ import {of as observableOf, Observable} from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import * as firebase from 'firebase/app';
 import 'firebase/remote-config' 
+import { MatTabChangeEvent } from '@angular/material';
 
 
 @Component({
@@ -21,14 +22,18 @@ import 'firebase/remote-config'
 })
 export class CreateDishesComponent implements OnInit {
   isImageSelected = false;
+  isVideoSelected = false;
   dishImageFile: File;
+  dishVideoFile: File;
   imgSrc: any = {};
+  videoSrc: any = {};
   selectedIndex=0;
   ingredients$:Ingredient[]= [];
   categories$: Observable<Category[]>;
   dishes$: Dish[] = [];
   dishForm: FormGroup;
   isImageBeingUploaded = false;
+  isVideoBeingUploaded = false;
   uploadProgressNumber$: Observable<number>;
   showIngredients: boolean = true;
 
@@ -67,12 +72,28 @@ export class CreateDishesComponent implements OnInit {
       dishPrice:['',[Validators.required, InputValidators.containsInvalidNumber]],
       dishEssence:['',Validators.required],
       dishIngredients:['',Validators.required],
-      dishVideoUrl:['',[]],
+      dishVideo:[null,[Validators.required]],
       dishCategory: ['',[Validators.required]],
       dishDescription: ['',[Validators.required]],
     });
 
-    this.categories$ = this.categoryService.getCategories('asc');
+    this.categories$ = this.categoryService.getCategories('asc','name',0,0)
+    .snapshotChanges()
+    .pipe(
+      map(
+        data => {
+          return data.map(
+            a=>{
+              let val: Category = {
+                name: a.payload.doc.data().name,
+                key: a.payload.doc.id
+              }
+              return val;
+            }
+          )
+        }
+      )
+    )
 
     if(this.showIngredients){
       
@@ -82,6 +103,11 @@ export class CreateDishesComponent implements OnInit {
     }
      
     
+  }
+
+
+  tabChange(event : MatTabChangeEvent){
+      this.selectedIndex = event.index;
   }
 
 
@@ -95,11 +121,13 @@ export class CreateDishesComponent implements OnInit {
 
   // event triggered when user selects a file for upload
 
-  fileSelected(event){
-    console.log(event);
+  imageFileSelected(event){
+    // console.log(event);
     
     const file =<File> event.target.files[0];
-    if (file){
+    console.log(file);
+    
+    if (file && file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/jpeg'){
       this.isImageSelected = true;
       const reader = new FileReader();
       reader.onload = ev => {
@@ -112,9 +140,33 @@ export class CreateDishesComponent implements OnInit {
       })
     }
     else {
+      this.dishImageFile = null;
       this.isImageSelected = false;
       this.dishForm.patchValue({
-        dishImage: null
+        dishImage: null,
+        
+      })
+    }
+  }
+
+
+  videoFileSelected(event){
+    const file: File = event.target.files[0];
+    console.log(file);
+    
+    if(file && file.type === 'video/mp4'){
+      this.dishVideoFile = file;
+      this.isVideoSelected = true;
+      this.videoSrc = file.name as string;
+      this.dishForm.patchValue({
+        dishVideo: true
+      })
+    }
+    else{
+      this.dishVideoFile = null;
+      this.isVideoSelected = false;
+      this.dishForm.patchValue({
+        dishVideo: null
       })
     }
   }
@@ -137,12 +189,6 @@ export class CreateDishesComponent implements OnInit {
   }
 
   //function triggered when form is submitted
-
-
-  log(val?: any){   
-    
-  }
-
   submitDish(){
     this.isImageBeingUploaded = true;
     let val = this.dishForm.value;
@@ -164,23 +210,30 @@ export class CreateDishesComponent implements OnInit {
       'price': +val.dishPrice,
       'essence': val.dishEssence === "nonveg" ? Essence.nonVeg : Essence.veg,
       'ingredients': ingredients ? ingredients : null,
-      'video_url': val.dishVideoUrl ? val.dishVideoUrl : '',
       'description' : val.dishDescription,
       'category': val.dishCategory
     }
     
     
-    let taskPromise = this.dishService.create(finalDish, this.dishImageFile)
+    let taskPromise = this.dishService.altCreate(finalDish, this.dishImageFile,this.dishVideoFile)
     taskPromise
     .then( results => {
         this.snackBar.open('Your dish was added!','',{duration: 1000})
         this.dishName.setValue(null)
+        this.dishPrice.setValue(null)
+        this.dishForm.get('dishEssence').setValue(null)
+        this.dishForm.get('dishIngredients') ? this.dishForm.get('dishIngredients').setValue(null) : null
+        this.dishForm.get('dishDescription').setValue(null)
+        
     } )
     .catch( err => {
       console.error(err);
       this.snackBar.open('An error occurred :(','',{duration: 1000})
     } )
-    .finally( () => this.isImageBeingUploaded=false )
+    .finally( () => {
+      this.isImageBeingUploaded=false
+      this.isVideoBeingUploaded=false
+    } )
     
     
     

@@ -64,7 +64,7 @@ export class CreateIngredientComponent implements OnInit {
       subscribe(()=>
       {
         // TODO hanlde undo action
-        console.log('Undo.');
+        // console.log('Undo.');
         // this.form.reset();
       }
       )

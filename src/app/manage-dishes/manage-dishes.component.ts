@@ -49,7 +49,7 @@ export class ManageDishesComponent implements OnInit {
       content : 'Are you sure you want to delete this dish?'
     }
     this.dialog.open(ConfirmDialogComponent,{
-      width: '400',
+      width: '600',
       data: data
     })
     .afterClosed()
@@ -62,8 +62,8 @@ export class ManageDishesComponent implements OnInit {
           } )
           .catch(data => {
             this.snackBar.open('An error occurred :(',null,{duration: 1000})
-            console.log('Error log:')
-            console.log(data);
+            console.error('Error log:')
+            console.error(data);
             
           })
         }        
@@ -84,19 +84,22 @@ export class ManageDishesComponent implements OnInit {
       video_url: dish.video_url,
       ingredients: dish.ingredients ? dish.ingredients : null,
       key: dish.key,
+      category: dish.category
 
     }
     const dialogRef  = this.dialog.open(DishDialogComponent,{
-      'width': "400",
+      'width': "550",
       'data': copyOfDish
     });
 
     dialogRef.afterClosed().subscribe(
       (result: Dish ) => {
-        console.log('Dialog closed');
+        
         if ( result ){
           if (!deepEqual(result,dish,{strict:true}) ){
               // console.log(result);
+              // console.log('Dialog closed');
+            this.snackBar.open('Updated!',null,{duration:500})
             this.dishService.updateDish(result)
             .then()
             .catch(
