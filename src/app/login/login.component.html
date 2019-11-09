@@ -16,7 +16,7 @@
                         <mat-form-field appearance='outline'>
                             <mat-label>Password</mat-label>
                             <input formControlName='password' matInput placeholder="Pre-provided password" type="password">
-                            <mat-hint>Must have 8 characters</mat-hint>
+                            <!-- <mat-hint>Must have 8 characters</mat-hint> -->
                             <mat-error *ngIf="password.touched && password.errors?.required">Password is required</mat-error>
                         </mat-form-field>
                         <button color='primary' (click)='onSubmitClicked()' [disabled]='form.invalid' mat-raised-button>Login</button>

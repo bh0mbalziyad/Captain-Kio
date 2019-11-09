@@ -1,11 +1,12 @@
-import { TestingComponent } from './testing/testing.component';
+import { AuthService } from './services/auth.service';
+import { LoginComponent } from './login/login.component';
 import { DishDialogComponent } from './manage-dishes/dish-dialog/dish-dialog.component';
 import { DishesFireService } from './services/dishes-fire-service.service';
 import { FireDatabaseService } from './services/fire-database.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router'
+import { RouterModule, Routes } from '@angular/router'
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -15,6 +16,7 @@ import {AngularFireModule} from '@angular/fire';
 import {AngularFireDatabaseModule} from '@angular/fire/database'
 import {AngularFireStorageModule} from '@angular/fire/storage';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
+import {AngularFireAuthGuard, redirectLoggedInTo} from '@angular/fire/auth-guard'
 import { environment } from '../environments/environment';
 
 // material imports here
@@ -60,14 +62,28 @@ import { ManageDishesComponent } from './manage-dishes/manage-dishes.component';
 import { CategoryService } from './services/category.service';
 import { ConfirmDialogComponent } from './common/dialog/confirm-dialog/confirm-dialog.component';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { AuthGuard } from './common/guards/authguard.guard';
 
-const routes = [
-  {path: '', redirectTo: '/actions/categories', pathMatch: 'full'},
-  // Add a component here for testing itss layout before integration
-  {path: 'test', component: TestingComponent},
-  {path: 'actions/categories', component: CategoriesComponent},
-  {path: 'actions/dishes', component: CreateDishesComponent},
-  // {path: 'actions/ingredients', component: IngredientsComponent},
+const routes:Routes = [
+  {
+    path: '', 
+    redirectTo: '/login', 
+    pathMatch: 'full'
+  },
+  {
+    path: 'login', 
+    component: LoginComponent
+  },
+  {
+    path: 'dashboard', 
+    component: DashboardComponent,
+    canActivate: [AuthGuard],  
+    children: [
+      {path: 'actions/categories', component: CategoriesComponent},
+      {path: 'actions/dishes', component: CreateDishesComponent}
+    ]
+  },
   {path: '**', component: NotFoundComponent}
 ];
 
@@ -84,8 +100,9 @@ const routes = [
     ManageIngredientsComponent,
     ManageDishesComponent,
     DishDialogComponent,
-    TestingComponent,
+    LoginComponent,
     ConfirmDialogComponent,
+    DashboardComponent,
   ],
   entryComponents:[
     DialogRefComponent,
@@ -131,8 +148,11 @@ const routes = [
   ],
   providers: [
     FireDatabaseService,
+    AuthService,
+    AuthGuard,
     DishesFireService,
     CategoryService,
+    AngularFireAuthGuard,
     {provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: {float: 'auto'}}
   ],
   bootstrap: [AppComponent]

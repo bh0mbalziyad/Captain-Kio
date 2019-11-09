@@ -1,0 +1,67 @@
+<div class="example-container" [class.example-is-mobile]="mobileQuery.matches">
+    <mat-toolbar color="primary" class="example-toolbar">
+        <button mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
+        <h1 class="example-app-name">Captain Kio</h1>
+        <mat-icon>accessibility_new</mat-icon>
+        <span style="flex: 1 1 auto;"></span>
+        <button [matMenuTriggerFor]='notifications' mat-icon-button><mat-icon>notifications</mat-icon></button>
+        <mat-menu #notifications='matMenu'>
+        <ng-template class="notifications" matMenuContent>
+            <span style="padding: 10px;">No new notifications!</span>
+        </ng-template>
+        </mat-menu>
+        <button mat-icon-button [matMenuTriggerFor]='userActions'><mat-icon>person</mat-icon></button>
+        <mat-menu #userActions='matMenu'>
+            <button mat-menu-item><mat-icon>settings_applications</mat-icon><span>Settings</span></button>
+            <button mat-menu-item><mat-icon>power_settings_new</mat-icon><span>Logout</span></button>
+        </mat-menu>
+    </mat-toolbar>
+    
+    <mat-sidenav-container class="example-sidenav-container"
+                            [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+        <mat-sidenav [opened]='mobileQuery.matches ? false : true'  [autoFocus]="false" #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
+                    [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
+        <mat-nav-list>
+            <ng-container mat-list-item>
+            <mat-expansion-panel [class.mat-elevation-z0]="true" dense>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Food Items
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-action-list>
+                    <button (click)='mobileQuery.matches? snav.toggle() : null' mat-list-item routerLink="/dashboard/actions/dishes" [queryParams]='{tab : 0}'>Manage</button>
+                    <button (click)='mobileQuery.matches? snav.toggle() : null' mat-list-item routerLink="/dashboard/actions/dishes" [queryParams]='{tab : 1}'>Create</button>
+                </mat-action-list>
+            </mat-expansion-panel>
+            </ng-container>
+            <mat-divider></mat-divider>
+            <ng-container *ngIf="false" mat-list-item>
+            <mat-expansion-panel [class.mat-elevation-z0]="true" dense>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <!-- <mat-icon>extension</mat-icon> -->
+                        Ingredients
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-action-list>
+                    <button (click)='mobileQuery.matches? snav.toggle() : null' mat-list-item routerLink="/dashboard/actions/ingredients" [queryParams]='{tab : 0}' >Manage</button>
+                    <button (click)='mobileQuery.matches? snav.toggle() : null' mat-list-item routerLink="/dashboard/actions/ingredients" [queryParams]='{tab : 1}' >Create</button>
+                </mat-action-list>
+            </mat-expansion-panel>
+            </ng-container>
+            <mat-divider *ngIf="false"></mat-divider>
+            <a (click)='mobileQuery.matches? snav.toggle() : null' routerLink="/dashboard/actions/categories" [queryParams]='{tab : 0}' class='categories' mat-list-item> 
+            <!-- <mat-icon>view_list</mat-icon> -->
+            Categories
+            </a>
+        </mat-nav-list>
+        </mat-sidenav>
+    
+        <mat-sidenav-content>
+        <div class="main-content">
+            <router-outlet></router-outlet>
+        </div>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+    </div>
