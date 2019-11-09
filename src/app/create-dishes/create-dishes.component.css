@@ -10,6 +10,13 @@ div.container div.col-sm-6 {
     margin: 15px 0px;
 }
 
+.video-ready {
+    color: indigo;
+    position: relative;
+    top : 6px;
+    right : 6px;
+}
+
 .spinner {
     position: absolute;
     top: 50%;

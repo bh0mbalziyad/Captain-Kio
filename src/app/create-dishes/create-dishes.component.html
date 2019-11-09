@@ -31,9 +31,10 @@
                         <!-- Add video for dish -->
                         <mat-card (click)='dishVideo.click()' class="previewWrapper mat-elevation-z7">
                             <mat-progress-bar *ngIf="isVideoBeingUploaded" mode='indeterminate'></mat-progress-bar>
+                            <!-- <video id='id' hidden [src]="videoSrc"></video> -->
                             <!-- <img style="border-radius: 2px;" *ngIf="isImageSelected" id='previewImg' [src]="imgSrc" width="100%" height="270px" alt="dish-image"> -->
                             <span *ngIf="!isVideoSelected" class="previewText">Click here to select a video for your dish</span>
-                            <span *ngIf="isVideoSelected" class="previewText">{{'The video file you selected is\n' + videoSrc}}</span>
+                            <span *ngIf="isVideoSelected" class="previewText"><mat-icon class='video-ready'>cloud_upload</mat-icon>Your video is ready for upload</span>
                             <input #dishVideo (change)='videoFileSelected($event)' type="file" accept="video/*" style="display: none;">
                         </mat-card>
                         <a id='filePicker'mat-fab (click)='dishVideo.click()'>

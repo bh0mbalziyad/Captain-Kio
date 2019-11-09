@@ -88,7 +88,7 @@ export class ManageDishesComponent implements OnInit {
 
     }
     const dialogRef  = this.dialog.open(DishDialogComponent,{
-      'width': "550",
+      'width': "500px",
       'data': copyOfDish
     });
 

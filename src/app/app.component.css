@@ -34,3 +34,11 @@ h1.example-app-name {
   padding: 0 6px;
   font-size: 15.5px
 }
+
+.notifications {
+  display: flex;
+  padding: 10px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

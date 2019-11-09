@@ -7,7 +7,7 @@ html {
 }
 body {
     height: 100%;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 button:focus, button:active:focus, button.active:focus {

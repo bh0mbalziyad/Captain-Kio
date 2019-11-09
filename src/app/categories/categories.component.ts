@@ -66,8 +66,9 @@ export class CategoriesComponent implements OnInit,OnDestroy {
 
   deleteCategory(category: Category){
     this.dialog.open(ConfirmDialogComponent,{
-      width: '400',
-      data: {content: 'Deleting this category will also delete all the Food items in this category\nAre you sure want to remove this category?'}
+      width: '400px',
+      maxHeight: 400,
+      data: {content: 'Deleting this category will also delete all the Food items in this category. Are you sure want to remove this category?'}
     })
     .afterClosed()
     .subscribe(
