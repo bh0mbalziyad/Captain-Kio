@@ -59,11 +59,12 @@ import { DialogRefComponent } from './manage-ingredients/dialog-ref/DialogRef.co
 import { ManageDishesComponent } from './manage-dishes/manage-dishes.component';
 import { CategoryService } from './services/category.service';
 import { ConfirmDialogComponent } from './common/dialog/confirm-dialog/confirm-dialog.component';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 
 const routes = [
   {path: '', redirectTo: '/actions/categories', pathMatch: 'full'},
   // Add a component here for testing itss layout before integration
-  // {path: 'actions/categories/:categoryName', component: VideoUploadComponent},
+  {path: 'test', component: TestingComponent},
   {path: 'actions/categories', component: CategoriesComponent},
   {path: 'actions/dishes', component: CreateDishesComponent},
   // {path: 'actions/ingredients', component: IngredientsComponent},
@@ -116,6 +117,7 @@ const routes = [
     MatProgressSpinnerModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
+    AngularFireAuthModule,
     AngularFireStorageModule,
     AngularFirestoreModule,
     LayoutModule,

@@ -1,6 +1,6 @@
-import { Dish, DishesFireService } from './../services/dishes-fire-service.service';
-import { Observable } from 'rxjs';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/auth'
 
 @Component({
   selector: 'app-testing',
@@ -8,16 +8,42 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./testing.component.css']
 })
 export class TestingComponent implements OnInit {
-  foodItems$: Observable<Dish[]>;
+  form: FormGroup;
 
-  constructor(private service: DishesFireService) { }
+  constructor(private fb: FormBuilder,private afAuth: AngularFireAuth) {
+    this.form = this.fb.group({
+      name: ['',[Validators.required]],
+      password: ['',[Validators.required]]
+    })
+   }
 
-  ngOnInit() {
-    this.foodItems$ = this.service.getDishes('asc');
+
+  get name (){
+    return this.form.get('name')
   }
 
-  test(value:any){
-    console.log(value)
+  get password (){
+    return this.form.get('password')
+  }
+
+  ngOnInit() {
+  }
+
+
+  onSubmitClicked(){
+    const value = this.form.value;
+    console.log(this.form.value)
+    this.afAuth.auth.signInWithEmailAndPassword(value.name as string, value.password as string)
+    .then(
+      credential => {
+        console.log(credential)
+      }
+    )
+    .catch(
+      err => {
+        console.log(err)
+      }
+    )
   }
 
 }
