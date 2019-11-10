@@ -27,6 +27,20 @@
     margin-top: -38px !important;
 }
 
+.spinner {
+    position: absolute;
+    z-index: 3;
+}
+
+.progress-bar {
+    margin-top: 6px;
+}
+
+.transparent {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
 .login-card {
     max-width: 500px;
     min-width: 350px;

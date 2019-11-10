@@ -1,27 +1,33 @@
+import { Observable, of as observableOf } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import * as firebase from 'firebase/app';
+import 'firebase/auth';
+import { switchMap, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  authState:firebase.User = null;
+
+  currentUser: firebase.User;
+  user :Observable<firebase.User> = null;
+
+
   constructor(private router: Router,
     private afAuth: AngularFireAuth) { 
-    this.afAuth.authState.subscribe(
-      auth => {
-        this.authState = auth
-      }
+    this.user = this.afAuth.authState.pipe(
+      switchMap(
+        user => {
+          if(user) return observableOf(user)
+          else return observableOf(null)
+        }
+      ),
+      tap(data=>this.currentUser = data)
     )
-
   }
-
-
-
-              
               
   async login(email: string, password: string){
     try {
@@ -40,17 +46,4 @@ export class AuthService {
     this.router.navigate(['/'])
   }
 
-
-  get authenticated():boolean{
-    return this.authState !== null
-  }
-
-
-  get currentUser(): firebase.User{
-    return this.authState ? this.authState : null
-  }
-
-  get currentUserId(): string{
-    return this.authState ? this.authState.uid : null
-  }
 }

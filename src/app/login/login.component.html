@@ -1,7 +1,8 @@
 <div class="container">
     <div class="row">
         <div class="col-12">
-            <mat-card class='login-card mat-elevation-z4'>
+            <mat-progress-spinner *ngIf="isChecking$ | async" class="spinner" mode='indeterminate'></mat-progress-spinner>
+            <mat-card [ngClass]="{'transparent': isChecking$ | async}" class='login-card mat-elevation-z4'>
                 <mat-card-title class='card-header'>
                     Login to Captain Kio
                 </mat-card-title>
@@ -20,6 +21,7 @@
                             <mat-error *ngIf="password.touched && password.errors?.required">Password is required</mat-error>
                         </mat-form-field>
                         <button color='primary' (click)='onSubmitClicked()' [disabled]='form.invalid' mat-raised-button>Login</button>
+                        <mat-progress-bar class='progress-bar' *ngIf="isLoginBeingChecked" mode='indeterminate'></mat-progress-bar>
                     </form>
                 </mat-card-content>
             </mat-card>

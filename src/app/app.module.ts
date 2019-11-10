@@ -16,7 +16,7 @@ import {AngularFireModule} from '@angular/fire';
 import {AngularFireDatabaseModule} from '@angular/fire/database'
 import {AngularFireStorageModule} from '@angular/fire/storage';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
-import {AngularFireAuthGuard, redirectLoggedInTo} from '@angular/fire/auth-guard'
+import {AngularFireAuthGuard, redirectUnauthorizedTo, redirectLoggedInTo} from '@angular/fire/auth-guard'
 import { environment } from '../environments/environment';
 
 // material imports here
@@ -65,6 +65,12 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AuthGuard } from './common/guards/authguard.guard';
 
+
+
+const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
+const redirectAuthorizedToDashboard = () => redirectLoggedInTo(['dashboard']);
+
+
 const routes:Routes = [
   {
     path: '', 
@@ -73,12 +79,16 @@ const routes:Routes = [
   },
   {
     path: 'login', 
-    component: LoginComponent
+    component: LoginComponent,
+    // canActivate: [AngularFireAuthGuard],
+    // data: {authGuardPipe: redirectAuthorizedToDashboard}
   },
   {
     path: 'dashboard', 
     component: DashboardComponent,
-    canActivate: [AuthGuard],  
+    canActivate: [AuthGuard],
+    // canActivate: [AngularFireAuthGuard],
+    // data:{ authGuardPipe: redirectUnauthorizedToLogin },  
     children: [
       {path: 'actions/categories', component: CategoriesComponent},
       {path: 'actions/dishes', component: CreateDishesComponent}

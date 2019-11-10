@@ -14,14 +14,15 @@ export interface Category {
   providedIn: 'root'
 })
 export class CategoryService {
-  ref: AngularFirestoreCollection<Category>;
+  public collectionName='test';
+  public ref: AngularFirestoreCollection<Category>;
   constructor(private afs: AngularFirestore) { 
-    this.ref = this.afs.collection<Category>('category');
+    this.ref = this.afs.collection<Category>(this.collectionName);
   }
 
 
   getCategories(direction: firestore.OrderByDirection,orderBy='name',pageIndex=0,pageSize=0){  
-    return this.afs.collection<Category>('category', 
+    return this.afs.collection<Category>(this.collectionName, 
     query => {
       if (pageSize==0){
         return query.orderBy(orderBy,direction).startAt(pageIndex)

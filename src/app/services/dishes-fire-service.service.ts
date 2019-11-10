@@ -37,23 +37,23 @@ export interface DishIngredient{
 })
 export class DishesFireService {
   autoID: string;
+  public collectionName='test';
   private dishImgFolder = 'dishImages/';
   private dishVideoFolder = 'dishVideos/';
-  ref: AngularFirestoreCollection<Dish>;
+  public ref: AngularFirestoreCollection<Dish>;
   statusListener$: Subject<string> = new Subject();
   uploadProgressNumber$: Subject<number> = new Subject();
 
   constructor(private rtdb: AngularFireDatabase, private storage: AngularFireStorage, private afs: AngularFirestore) {
-    this.ref = this.afs.collection<Dish>('dishes');
+    this.ref = this.afs.collection<Dish>(this.collectionName);
     // this.statusListener$.subscribe(str=>console.log(str));
   }
   
   getDishes(sortOrder: firestore.OrderByDirection, sortBy='name', pageIndex=0, pageSize=15){
-    return this.afs.collection<Dish>('dishes', ref => {
+    return this.afs.collection<Dish>(this.collectionName, ref => {
       return ref.orderBy('price',sortOrder).startAt(pageIndex*pageSize).limit(pageSize);
     }).valueChanges();
   }
-
 
 
   async altCreate(dish:Dish,dishImage:File, dishVideo: File){

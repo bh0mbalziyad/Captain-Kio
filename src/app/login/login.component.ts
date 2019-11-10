@@ -1,10 +1,9 @@
-import { take } from 'rxjs/operators';
+import { tap, finalize } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth'
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -14,7 +13,10 @@ import { AuthService } from '../services/auth.service';
 })
 export class LoginComponent implements OnInit, OnDestroy {
   form: FormGroup;
-
+  isCheckingSubject: BehaviorSubject<Boolean> = new BehaviorSubject<Boolean>(false);
+  isChecking$ = this.isCheckingSubject.asObservable();
+  isLoginBeingChecked: boolean = false;
+  
   constructor(private fb: FormBuilder,
     private auth: AuthService,
     private router: Router,
@@ -35,7 +37,13 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-     if (this.auth.authenticated) this.afterLogin()
+    this.isCheckingSubject.next(true)
+     this.auth.user.pipe(
+       tap(user=>{
+         user ? this.router.navigate(['/dashboard']) : this.isCheckingSubject.next(false)
+       }),
+       finalize(()=>this.isCheckingSubject.next(false))
+     ).subscribe()
   }
 
   ngOnDestroy(): void {
@@ -50,41 +58,20 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   onSubmitClicked(){
+    this.isLoginBeingChecked = true;
     const value = this.form.value;
-    console.log(this.form.value)
     this.auth.login(value.name,value.password)
-    .then(()=>this.afterLogin())
+    .then(()=>{
+      this.snackbar.open('Login successful!',null,{duration: 1200})
+      this.afterLogin()
+    })
     .catch(
       err=>{
         console.log(err)
         this.snackbar.open('Invalid credentials',null,{duration:700})
+        this.isLoginBeingChecked = false;
       }
     )
   }
-  //   this.afAuth.auth.signInWithEmailAndPassword(value.name as string, value.password as string)
-  //   .then(
-  //     credential => {
-  //       this.router.navigate(['/dashboard'])
-  //     }
-  //   )
-  //   .catch(
-  //     err => {
-  //       let errorCode = err.code;
-  //       if ( errorCode === 'auth/invalid-email'){
-  //         this.snackbar.open('Invalid email',null,{duration:1000})
-  //       }
-  //       else if ( errorCode === 'auth/wrong-password'){
-  //         this.snackbar.open('Invalid password',null,{duration:1000})
-  //       }
-  //       else if (errorCode === 'auth/user-not-found') {
-  //         this.snackbar.open('User not found',null,{duration:1000})
-  //       }
-  //       else{
-  //         this.snackbar.open('An error occurred',null,{duration: 1000})
-  //         console.log(err)
-  //       }
-  //     }
-  //   )
-  // }
 
 }

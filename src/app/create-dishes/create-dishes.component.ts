@@ -68,7 +68,7 @@ export class CreateDishesComponent implements OnInit {
 
     this.dishForm = this.formBuilder.group({
       dishImage:[null ,Validators.required],
-      dishName:['',[Validators.required,InputValidators.containsRestricted],[InputValidators.nameExists(this.afs,'dishes')]],
+      dishName:['',[Validators.required,InputValidators.containsRestricted],[InputValidators.nameExists(this.afs,this.dishService.collectionName)]],
       dishPrice:['',[Validators.required, InputValidators.containsInvalidNumber]],
       dishEssence:['',Validators.required],
       dishIngredients:['',Validators.required],
@@ -213,7 +213,7 @@ export class CreateDishesComponent implements OnInit {
       'description' : val.dishDescription,
       'category': val.dishCategory
     }
-    
+    'category'
     
     let taskPromise = this.dishService.altCreate(finalDish, this.dishImageFile,this.dishVideoFile)
     taskPromise

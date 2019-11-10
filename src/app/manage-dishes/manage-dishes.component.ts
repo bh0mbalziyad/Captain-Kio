@@ -1,17 +1,14 @@
+import { AngularFirestore } from '@angular/fire/firestore';
 import { ConfirmDialogComponent } from './../common/dialog/confirm-dialog/confirm-dialog.component';
 import { DishDialogComponent } from './dish-dialog/dish-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatTable } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
-import { MatPaginator } from '@angular/material/paginator';
-import { catchError, finalize } from 'rxjs/operators';
-import { Ingredient } from './../create-ingredient/create-ingredient.component';
 import { Dish, DishesFireService } from './../services/dishes-fire-service.service';
-import { Observable, Subject, of as observableOf, BehaviorSubject } from 'rxjs';
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
-import { DataSource } from '@angular/cdk/table';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
 import * as deepEqual from "deep-equal";
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
 
 @Component({
   selector: 'app-manage-dishes',
@@ -20,20 +17,33 @@ import * as deepEqual from "deep-equal";
 })
 export class ManageDishesComponent implements OnInit {
   
+  private uid: string;
   foodItems$: Observable<Dish[]>;
   loadingSubject = new BehaviorSubject<Boolean>(false);
   loading$ = this.loadingSubject.asObservable();
 
 
-  constructor(private dishService: DishesFireService, private snackBar: MatSnackBar, private dialog: MatDialog) {}
+  constructor(private dishService: DishesFireService, 
+    private snackBar: MatSnackBar,
+    private afs: AngularFirestore, 
+    private dialog: MatDialog) {
+     this.uid = firebase.auth().currentUser.uid
+  }
 
   ngOnInit() {
+    this.initializeCollection()
     this.getDishes();
   }
 
 
+  initializeCollection(){
+    
+    this.dishService.collectionName = `users/${this.uid}/dishes`
+    this.dishService.ref = this.afs.collection<Dish>(`users/${this.uid}/dishes`)
+  }
 
   getDishes(){
+    // this.dishService.
     this.loadingSubject.next(true)
     this.foodItems$ = this.dishService.getDishes('asc')
     this.foodItems$.subscribe(()=>{

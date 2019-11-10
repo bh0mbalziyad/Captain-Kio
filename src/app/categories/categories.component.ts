@@ -8,6 +8,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { tap, map } from 'rxjs/operators';
 import { AngularFirestore } from '@angular/fire/firestore';
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
 
 @Component({
   selector: 'app-categories',
@@ -17,6 +19,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
 export class CategoriesComponent implements OnInit,OnDestroy {
   form: FormGroup;
   selectedIndex=0;
+  private uid: string;
+  private collectionName: string;
   loadingSubject = new BehaviorSubject<Boolean>(true);
   loading$ = this.loadingSubject.asObservable();
   categories$: Observable<Category[]>;
@@ -28,14 +32,22 @@ export class CategoriesComponent implements OnInit,OnDestroy {
     private categoryService: CategoryService,
     private snackbar: MatSnackBar) 
     {
+      this.uid = firebase.auth().currentUser.uid
+      this.collectionName = `users/${this.uid}/category`;
       this.form = this.fb.group({
-      categoryName: ['',[Validators.required,InputValidators.containsRestricted],[InputValidators.nameExists(this.afs,'category')]]
+      categoryName: ['',[Validators.required,InputValidators.containsRestricted],[InputValidators.nameExists(this.afs,this.collectionName)]]
     })
   }
 
   
   ngOnInit() {
+    this.initializeCollection()
     this.getCategories()
+  }
+
+  initializeCollection(){
+    this.categoryService.collectionName = `users/${this.uid}/category`
+    this.categoryService.ref = this.afs.collection<Category>(this.categoryService.collectionName)
   }
   
   getCategories(){
