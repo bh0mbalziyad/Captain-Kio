@@ -4,7 +4,7 @@
         <mat-form-field>
             <input type="text" formControlName='name' matInput placeholder="Name for your dish" >
             <mat-error *ngIf="form.get('name').errors?.required">Name is required</mat-error>
-            <mat-error *ngIf="form.get('name').errors?.nameTaken">A dish with this name already exists</mat-error>
+            <mat-error *ngIf="form.get('name').errors?.nameExists">A dish with this name already exists</mat-error>
             <mat-progress-bar *ngIf="form.pending" mode='indeterminate'></mat-progress-bar>
         </mat-form-field>
         <!-- Price of dish -->
@@ -35,7 +35,7 @@
             </mat-select>
             <mat-error *ngIf="form.get('category').errors?.required">Category is required</mat-error>
         </mat-form-field>
-        <a color='warn' mat-raised-button (click)='onNoClick()'  >Cancel</a>
-        <a (click)="onSubmitClicked()" [disabled]='form.invalid || form.pending' mat-raised-button color='primary' >Submit</a>
+        <button color='warn' mat-raised-button (click)='onNoClick()'  >Cancel</button>
+        <button (click)="onSubmitClicked()" [disabled]='form.invalid || form.pending' mat-raised-button color='primary' >Submit</button>
     </form>
 </div>

@@ -37,7 +37,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(){
-    this.router.navigate(['/dashboard/actions/categories'])
+    this.router.navigate(['/dashboard/orders'])
   }
 
   ngOnDestroy(): void {

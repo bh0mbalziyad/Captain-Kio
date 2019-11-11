@@ -41,8 +41,10 @@ export class DishDialogComponent implements OnInit {
     })
 
     this.showIngredients = remoteConfig.getValue('ingredients_required').asBoolean();
+    const uid = firebase.auth().currentUser.uid
     this.form = this.fb.group({
-      name: [data.name,[Validators.required,],[InputValidators.EditFieldNameTaken(this.afs,data.name,'dishes'),]],
+      // TODO make changes here to show user's dishes
+      name: [data.name,[Validators.required,],[InputValidators.EditFieldNameTaken(this.afs,data.name,`dishes`),]],
       price: [data.price,[Validators.required,InputValidators.containsInvalidNumber]],
       essence: [data.essence,[Validators.required]],
       ingredients: [data.ingredients,Validators.required],

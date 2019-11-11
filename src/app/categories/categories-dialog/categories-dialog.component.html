@@ -1,0 +1,13 @@
+<div>
+    <form [formGroup]='form' class='form-items'>
+        <mat-form-field appearance="outline">
+            <mat-label>Name</mat-label>
+            <input required matInput formControlName='name' type="text" placeholder="Name for category">
+            <mat-hint>New name for category</mat-hint>
+            <mat-progress-bar *ngIf="name.pending" mode='indeterminate'></mat-progress-bar>
+            <mat-error *ngIf="name.errors?.required">A name is required</mat-error>
+            <mat-error *ngIf="name.errors?.nameExists">A category with that name already exists</mat-error>
+        </mat-form-field>
+        <button [disabled]='form.invalid || form.pending' (click)='onSubmitClicked(data)' mat-raised-button color='primary'>Update</button>
+    </form>
+</div>

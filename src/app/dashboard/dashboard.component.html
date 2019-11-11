@@ -23,6 +23,21 @@
                     [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
         <mat-nav-list>
             <ng-container mat-list-item>
+                <mat-expansion-panel [class.mat-elevation-z0]="true" dense>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <!-- <mat-icon>extension</mat-icon> -->
+                            Orders
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <mat-action-list>
+                        <button (click)='mobileQuery.matches? snav.toggle() : null' mat-list-item routerLink="/dashboard/orders" [queryParams]='{tab : 0}' >New</button>
+                        <button (click)='mobileQuery.matches? snav.toggle() : null' mat-list-item routerLink="/dashboard/orders" [queryParams]='{tab : 1}' >Old</button>
+                    </mat-action-list>
+                </mat-expansion-panel>
+            </ng-container>
+            <mat-divider></mat-divider>
+            <ng-container mat-list-item>
             <mat-expansion-panel [class.mat-elevation-z0]="true" dense>
                 <mat-expansion-panel-header>
                     <mat-panel-title>
@@ -51,9 +66,16 @@
             </mat-expansion-panel>
             </ng-container>
             <mat-divider *ngIf="false"></mat-divider>
-            <a (click)='mobileQuery.matches? snav.toggle() : null' routerLink="/dashboard/actions/categories" [queryParams]='{tab : 0}' class='categories' mat-list-item> 
-            <!-- <mat-icon>view_list</mat-icon> -->
+            <a (click)='mobileQuery.matches? snav.toggle() : null' routerLink="/dashboard/actions/categories" [queryParams]='{tab : 0}' class='categories' mat-list-item>
             Categories
+            </a>
+            <mat-divider></mat-divider>
+            <a (click)='mobileQuery.matches? snav.toggle() : null' routerLink="/dashboard/tables" [queryParams]='{tab : 0}' class='categories' mat-list-item>
+            Tables
+            </a>
+            <mat-divider></mat-divider>
+            <a (click)='mobileQuery.matches? snav.toggle() : null' routerLink="/dashboard/sales" [queryParams]='{tab : 0}' class='categories' mat-list-item>
+            Sales
             </a>
         </mat-nav-list>
         </mat-sidenav>

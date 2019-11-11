@@ -1,0 +1,27 @@
+<div class="wrapper">
+    <div class="row">
+        <div *ngFor="let order of orders$ | async" class="col-lg-12">
+            <mat-card class="mat-elevation-z8" >
+                <mat-card-title>
+                    <div class="title-wrapper">
+                        <span class="name">Order ID: {{order.orderId}}</span>
+                    </div>
+                    <span class='header essence'>
+                        {{order.timestamp.seconds * 1000 | date:'MMM d, y'}}
+                    </span>
+                </mat-card-title>
+                <mat-card-subtitle>Table number goes here</mat-card-subtitle>
+                <mat-card-content>
+                    <div *ngFor="let orderItem of order.order.cart" class='order-items'>
+                        <span class="item-name">{{orderItem.foodItem.name}}</span>
+                        <span class="empty" style="flex: 1 1 auto;"></span>
+                        <span class="item-quantity">x{{orderItem.count}}</span>
+                    </div>
+                </mat-card-content>
+                <mat-card-actions class='actions'>
+                    <button class='dispatch-button' color='primary' mat-raised-button>Dispatch</button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+    </div>
+</div>

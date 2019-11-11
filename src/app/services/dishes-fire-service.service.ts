@@ -37,7 +37,7 @@ export interface DishIngredient{
 })
 export class DishesFireService {
   autoID: string;
-  public collectionName='test';
+  public collectionName='dishes';
   private dishImgFolder = 'dishImages/';
   private dishVideoFolder = 'dishVideos/';
   public ref: AngularFirestoreCollection<Dish>;

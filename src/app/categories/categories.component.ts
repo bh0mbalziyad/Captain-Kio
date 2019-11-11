@@ -1,3 +1,4 @@
+import { CategoriesDialogComponent } from './categories-dialog/categories-dialog.component';
 import { ConfirmDialogComponent } from './../common/dialog/confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable, BehaviorSubject, of } from 'rxjs';
@@ -10,6 +11,7 @@ import { tap, map } from 'rxjs/operators';
 import { AngularFirestore } from '@angular/fire/firestore';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
+import * as deepEqual from 'deep-equal';
 
 @Component({
   selector: 'app-categories',
@@ -33,7 +35,8 @@ export class CategoriesComponent implements OnInit,OnDestroy {
     private snackbar: MatSnackBar) 
     {
       this.uid = firebase.auth().currentUser.uid
-      this.collectionName = `users/${this.uid}/category`;
+      // TODO make changes here for user's category
+      this.collectionName = `category`;
       this.form = this.fb.group({
       categoryName: ['',[Validators.required,InputValidators.containsRestricted],[InputValidators.nameExists(this.afs,this.collectionName)]]
     })
@@ -46,8 +49,9 @@ export class CategoriesComponent implements OnInit,OnDestroy {
   }
 
   initializeCollection(){
-    this.categoryService.collectionName = `users/${this.uid}/category`
-    this.categoryService.ref = this.afs.collection<Category>(this.categoryService.collectionName)
+    // this.categoryService.collectionName = `users/${this.uid}/category`
+    // this.categoryService.ref = this.afs.collection<Category>(this.categoryService.collectionName)
+    // this.categoryService.uid = this.uid
   }
   
   getCategories(){
@@ -73,6 +77,29 @@ export class CategoriesComponent implements OnInit,OnDestroy {
 
   get categoryName (){
     return this.form.get('categoryName')
+  }
+
+
+
+  update(category: Category){
+    const copyOfCategory: Category = {
+      name: category.name,
+      key: category.key,
+    }
+    const dialogRef = this.dialog.open(CategoriesDialogComponent,{
+      width: '500px',
+      data: copyOfCategory
+    })
+    
+    dialogRef.afterClosed().subscribe(
+      (result: Category) => {
+        if(!result) {return}
+        if (deepEqual(result,category,{strict:true})) {return}
+        console.log('About to update category: ',result)
+        this.snackbar.open('Updated',null,{duration:900})
+        this.categoryService.updateCategory(result,category.name)
+      }
+    )
   }
 
 

@@ -31,7 +31,7 @@ export class ManageDishesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.initializeCollection()
+    // this.initializeCollection()
     this.getDishes();
   }
 

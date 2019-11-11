@@ -1,0 +1,11 @@
+<mat-toolbar style="background: #dcdcdc;">
+Orders
+</mat-toolbar>
+<mat-tab-group [selectedIndex]='selectedIndex'>
+    <mat-tab label="New">
+        <app-new-orders></app-new-orders>
+    </mat-tab>
+    <mat-tab label="Old">
+        <app-old-orders></app-old-orders>
+    </mat-tab>
+</mat-tab-group>

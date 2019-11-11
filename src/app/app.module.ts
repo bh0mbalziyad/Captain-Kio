@@ -1,3 +1,4 @@
+import { TablesService } from './services/tables.service';
 import { AuthService } from './services/auth.service';
 import { LoginComponent } from './login/login.component';
 import { DishDialogComponent } from './manage-dishes/dish-dialog/dish-dialog.component';
@@ -64,6 +65,13 @@ import { ConfirmDialogComponent } from './common/dialog/confirm-dialog/confirm-d
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AuthGuard } from './common/guards/authguard.guard';
+import { CategoriesDialogComponent } from './categories/categories-dialog/categories-dialog.component';
+import { OrdersComponent } from './orders/orders.component';
+import { NewOrdersComponent } from './orders/new-orders/new-orders.component';
+import { OldOrdersComponent } from './orders/old-orders/old-orders.component';
+import { OrdersService } from './services/orders.service';
+import { SalesComponent } from './sales/sales.component';
+import { TablesComponent } from './tables/tables.component';
 
 
 
@@ -91,7 +99,10 @@ const routes:Routes = [
     // data:{ authGuardPipe: redirectUnauthorizedToLogin },  
     children: [
       {path: 'actions/categories', component: CategoriesComponent},
-      {path: 'actions/dishes', component: CreateDishesComponent}
+      {path: 'actions/dishes', component: CreateDishesComponent},
+      {path: 'orders',component: OrdersComponent},
+      {path: 'sales', component: SalesComponent},
+      {path: 'tables', component: TablesComponent},
     ]
   },
   {path: '**', component: NotFoundComponent}
@@ -113,11 +124,18 @@ const routes:Routes = [
     LoginComponent,
     ConfirmDialogComponent,
     DashboardComponent,
+    CategoriesDialogComponent,
+    OrdersComponent,
+    NewOrdersComponent,
+    OldOrdersComponent,
+    SalesComponent,
+    TablesComponent,
   ],
   entryComponents:[
     DialogRefComponent,
     DishDialogComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    CategoriesDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -163,6 +181,8 @@ const routes:Routes = [
     DishesFireService,
     CategoryService,
     AngularFireAuthGuard,
+    OrdersService,
+    TablesService,
     {provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: {float: 'auto'}}
   ],
   bootstrap: [AppComponent]

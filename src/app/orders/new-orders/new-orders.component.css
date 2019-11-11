@@ -1,0 +1,56 @@
+.wrapper {
+    padding: 16px;
+}
+
+mat-card {
+    margin: 10px 7px;
+    padding: 10px;
+}
+
+span.header {
+    position: absolute;
+    top: 10px;
+}
+
+.category {
+    position: relative;
+}
+
+span.essence {
+    right: 10px;
+}
+
+span.name {
+    font-size: 22px;
+}
+
+
+.order-items{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border: 1px solid #dcdcdc; 
+    border-radius: 3px; 
+    padding: 10px
+}
+
+.actions {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+}
+
+.dispatch-button{
+    margin-bottom: 8px !important;
+    margin-right: 8px !important;
+}
+
+
+
+.title-wrapper {
+    display: inline-flex;
+    justify-content: flex-start;
+    align-items: baseline;
+    flex-wrap: wrap;
+
+}
