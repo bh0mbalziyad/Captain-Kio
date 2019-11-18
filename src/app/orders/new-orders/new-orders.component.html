@@ -1,7 +1,7 @@
 <div class="wrapper">
     <div class="row">
-        <div *ngFor="let order of orders$ | async" class="col-lg-12">
-            <mat-card class="mat-elevation-z8" >
+        <div *ngFor="let order of orders$ | async"  class="col-lg-12">
+            <mat-card class="mat-elevation-z8" *ngIf="!order?.old" >
                 <mat-card-title>
                     <div class="title-wrapper">
                         <span class="name">Order ID: {{order.orderId}}</span>
@@ -19,7 +19,7 @@
                     </div>
                 </mat-card-content>
                 <mat-card-actions class='actions'>
-                    <button class='dispatch-button' color='primary' mat-raised-button>Dispatch</button>
+                    <button class='dispatch-button' (click)='dispatchOrder(order)' color='primary' mat-raised-button>Dispatch</button>
                 </mat-card-actions>
             </mat-card>
         </div>

@@ -11,6 +11,7 @@ export interface Order {
   totalamount: number;
   order: Cart;
   key?: string;
+  old?: boolean;
 }
 
 export interface Cart {
@@ -38,4 +39,29 @@ export class OrdersService {
   getOrders(){
     return this.afs.collection<Order>(this.collectionName,query=>query.orderBy('orderId'));
   }
+
+  async dispatchOrder(order:Order){
+    return this.ref.doc<Order>(order.key).update(
+      {
+        old: true
+      }
+    )
+    .then(()=>{
+      console.log('Dispatched order-',order.orderId)
+    })
+    .catch(err=>console.error(err))
+  }
+
+  async undoDispatchOrder(order:Order){
+    return this.ref.doc<Order>(order.key).update(
+      {
+        old: false
+      }
+    )
+    .then(()=>{
+      console.log('Dispatched order-',order.orderId)
+    })
+    .catch(err=>console.error(err))
+  }
+
 }
