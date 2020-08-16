@@ -14,6 +14,11 @@
 chrome-profiler-events*.json
 speed-measure-plugin*.json
 
+# firebase hosting config
+
+/.firebase
+/.firebase/*.cache
+
 # IDEs and editors
 /.idea
 .project
