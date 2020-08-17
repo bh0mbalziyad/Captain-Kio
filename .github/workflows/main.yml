@@ -16,7 +16,7 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Create empty env file to avoid Angular build bug
-        run: touch ./src/environments/environment.ts
+        run: mkdir -p ./src/environments && touch ./src/environments/environment.ts
       - name: Setup environment vars and build the app
         run: npm run build
         env:
