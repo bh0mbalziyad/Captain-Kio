@@ -10,8 +10,7 @@ const targetPath = isProduction
   ? `./src/environments/environment.prod.ts`
   : `./src/environments/environment.ts`;
 
-const environmentFileContent = `
-export const environment = {
+const environmentFileContent = `export const environment = {
   production: ${isProduction},
   firebase: {
     apiKey: "${process.env.FIREBASE_API_KEY}",
