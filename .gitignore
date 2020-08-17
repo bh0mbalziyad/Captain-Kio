@@ -19,8 +19,8 @@ speed-measure-plugin*.json
 /.firebase
 /.firebase/*.cache
 .env
-/src/environments/
-
+/src/environments/environment*
+!/src/environments
 # IDEs and editors
 /.idea
 .project

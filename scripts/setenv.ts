@@ -1,4 +1,4 @@
-const { writeFile } = require("fs");
+const fs = require("fs");
 const { argv } = require("yargs");
 
 require("dotenv").config();
@@ -26,9 +26,18 @@ export const environment = {
 };
 `;
 
-writeFile(targetPath, environmentFileContent, (err) => {
-  if (err) {
-    console.log(err);
-  }
-  console.log(`Wrote variables to ${targetPath}`);
-});
+if (!fs.existsSync(`./src/environments`)) fs.mkdirSync("./src/environments");
+
+try {
+  let stream = fs.createWriteStream(targetPath);
+  stream.once("open", (fd) => {
+    stream.write(environmentFileContent);
+    console.log(`Wrote envs to ${targetPath}`);
+    stream.end();
+  });
+
+  // fs.writeFileSync(targetPath, environmentFileContent);
+  // console.log(`Wrote envs to ${targetPath}`);
+} catch (error) {
+  console.error("Cannot write file", error);
+}
