@@ -17,8 +17,8 @@ jobs:
         run: npm install
       # - name: Lint
       #   run: npm run lint
-      - name: Build
-        run: npm run build --prod
+      - name: Setup environment vars and build the app
+        run: npm run build
         env:
           FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
           FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
